@@ -272,3 +272,27 @@ export const genmenKubunCode = [
   { key: "2", value: "免 除" },
   { key: "3", value: "支払猶予" },
 ];
+
+export const futanshaShubetsuCode = [
+  { key: "1", value: "医療保険、国民健康保険又は後期高齢者医療" },
+  { key: "2", value: "第１公費負担医療" },
+  { key: "3", value: "第２公費負担医療" },
+  { key: "4", value: "第３公費負担医療" },
+  { key: "5", value: "第４公費負担医療" },
+];
+
+export const kakuninKubunCode = [
+  { key: "01", value: "保険医療機関・薬局窓口等" },
+  { key: "02", value: "審査支払機関に請求後・変更なし" },
+  { key: "03", value: "審査支払機関に請求後・確認不能" },
+  { key: "04", value: "審査支払機関に請求後・振替" },
+  { key: "05", value: "審査支払機関に請求後・分割" },
+  { key: "06", value: "審査支払機関に請求後・レセプト記載の保険者等に請求" },
+  { key: "07", value: "審査支払機関に請求後・資格喪失（証回収後）" },
+  { key: "08", value: "審査支払機関に請求後・資格喪失（死亡）" },
+  { key: "09", value: "審査支払機関に請求後・枝番特定" },
+  { key: "11", value: "保険者等に請求後・振替" },
+  { key: "12", value: "保険者等に請求後・分割" },
+  { key: "13", value: "保険者等に請求後・変更不能" },
+  { key: "14", value: "保険者等に請求後・枝番特定" },
+];

@@ -3,6 +3,7 @@ import explainHO from "./explainHO";
 import explainIR from "./explainIR";
 import explainKO from "./explainKO";
 import explainRE from "./explainRE";
+import explainSN from "./explainSN";
 import explainUK from "./explainUK";
 
 export const explain = (record: RecordType) => {
@@ -17,6 +18,8 @@ export const explain = (record: RecordType) => {
       return explainHO(record);
     case "KO":
       return explainKO(record);
+    case "SN":
+      return explainSN(record);
     default:
       return null;
   }
