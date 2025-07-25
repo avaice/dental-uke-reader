@@ -1,3 +1,16 @@
+export const recordType = [
+  { key: "UK", value: "受付情報" },
+  { key: "IR", value: "医療機関情報" },
+  { key: "RE", value: "レセプト共通" },
+  { key: "HO", value: "保険者" },
+  { key: "KO", value: "公費" },
+  { key: "SN", value: "資格確認" },
+  { key: "JD", value: "受診日等" },
+  { key: "MF", value: "窓口負担額" },
+  { key: "HS", value: "傷病名部位" },
+  { key: "SS", value: "歯科診療行為" },
+];
+
 export const shinsaShiharaiKikan = [
   {
     key: "1",

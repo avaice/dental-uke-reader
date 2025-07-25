@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { UKERenderer } from "./components/UKERenderer";
+import { recordType } from "./constants";
 import { explain } from "./explain";
 import { useUKE } from "./hooks/useUKE";
+import { findFromKV } from "./tools";
 import type { RecordType } from "./types";
 
 function App() {
@@ -11,26 +13,32 @@ function App() {
   return (
     <div className="p-4">
       <div className="h-[150px]">
-        <button
-          type="button"
-          onClick={loadUKE}
-          className="border px-2 py-1 transition hover:bg-gray-300"
-        >
-          UKEファイルを読み込む
-        </button>
+        <div className="flex justify-between gap-2">
+          <h2 className="font-bold text-2xl">UKE Reader</h2>
+          <button
+            type="button"
+            onClick={loadUKE}
+            className="rounded border px-2 py-0.5 transition hover:bg-gray-100 active:bg-gray-200"
+          >
+            UKEを読み込む
+          </button>
+        </div>
         {record && (
           <div className="flex flex-col gap-1 py-2">
             <div className="flex gap-2 text-sm">
-              <div className="w-[100px] shrink-0 font-bold">
-                {record.identification}({record.index})
+              <div className="w-[200px] shrink-0 font-bold">
+                Idx: {record.index} in{" "}
+                {findFromKV(recordType, record.identification) ?? "unknown"}
               </div>
               <div className="w-full">Value: {record.data}</div>
             </div>
-            <div>{explain(record) ?? "unknown"}</div>
+            <div className="h-[75px] overflow-y-scroll rounded border p-2 text-sm">
+              <span>{explain(record) ?? "unknown"}</span>
+            </div>
           </div>
         )}
       </div>
-      <div className="h-[calc(100svh_-_150px_-_32px)] w-full overflow-x-scroll rounded border border-gray-300 shadow-xl transition">
+      <div className="h-[calc(100svh_-_150px_-_32px)] w-full overflow-x-scroll rounded border transition">
         {UKE && <UKERenderer UKE={UKE} setRecord={setRecord} />}
       </div>
     </div>
