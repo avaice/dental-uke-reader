@@ -1,6 +1,7 @@
 import type { RecordType } from "../types";
 import explainHO from "./explainHO";
 import explainIR from "./explainIR";
+import explainJD from "./explainJD";
 import explainKO from "./explainKO";
 import explainRE from "./explainRE";
 import explainSN from "./explainSN";
@@ -20,6 +21,8 @@ export const explain = (record: RecordType) => {
       return explainKO(record);
     case "SN":
       return explainSN(record);
+    case "JD":
+      return explainJD(record);
     default:
       return null;
   }

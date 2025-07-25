@@ -296,3 +296,12 @@ export const kakuninKubunCode = [
   { key: "13", value: "保険者等に請求後・変更不能" },
   { key: "14", value: "保険者等に請求後・枝番特定" },
 ];
+
+export const jushinKubunCode = [
+  { key: "1", value: "診療実日数に計上する受診及び入院" },
+  {
+    key: "2",
+    value: "診療実日数に計上しない受診（初診又は再診に付随する一連の行為等）",
+  },
+  { key: "9", value: "請求データの各レコードに記録された算定日情報と不一致" },
+];
