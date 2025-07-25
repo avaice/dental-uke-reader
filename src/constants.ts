@@ -260,3 +260,15 @@ export const receptTokkijikouCode = [
 ];
 
 export const kanjaJotaiCode = [{ key: "001", value: "妊婦" }];
+
+export const shokumuReasonCode = [
+  { key: "1", value: "職 上（職務上）" },
+  { key: "2", value: "下 ３（下船後３月以内）" },
+  { key: "3", value: "通 災（通勤災害）" },
+];
+
+export const genmenKubunCode = [
+  { key: "1", value: "減 額" },
+  { key: "2", value: "免 除" },
+  { key: "3", value: "支払猶予" },
+];
