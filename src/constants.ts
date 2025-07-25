@@ -305,3 +305,14 @@ export const jushinKubunCode = [
   },
   { key: "9", value: "請求データの各レコードに記録された算定日情報と不一致" },
 ];
+
+export const madoguchiFutanKubunCode = [
+  { key: "00", value: "一部負担金・高額療養費の現物給付なし" },
+  {
+    key: "01",
+    value: "一部負担金・高額療養費現物給付あり（多数回該当を除く）",
+  },
+  { key: "02", value: "一部負担金・高額療養費現物給付あり（多数回該当）" },
+  { key: "03", value: "食事療養費及び生活療養費の標準負担額" },
+  { key: "04", value: "特別の費用の額" },
+];
