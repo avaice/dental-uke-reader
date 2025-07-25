@@ -3,7 +3,7 @@ import { findFromKV } from "../tools";
 import type { RecordType } from "../types";
 
 const descriptions: (((record: RecordType) => string) | string)[] = [
-  "この行が受診日等レコードであることを示します。公費を併用する場合は、優先度順で記録します",
+  "この行が受診日等レコードであることを示します",
   (record) =>
     `負担者種別を示します。${
       record.data !== ""
