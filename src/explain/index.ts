@@ -7,6 +7,7 @@ import explainKO from "./explainKO";
 import explainMF from "./explainMF";
 import explainRE from "./explainRE";
 import explainSN from "./explainSN";
+import explainSS from "./explainSS";
 import explainUK from "./explainUK";
 
 export const explain = (record: RecordType) => {
@@ -29,6 +30,8 @@ export const explain = (record: RecordType) => {
       return explainMF(record);
     case "HS":
       return explainHS(record);
+    case "SS":
+      return explainSS(record);
     default:
       return null;
   }

@@ -466,3 +466,166 @@ export const byotaiIkouCode = [
   { key: "1", value: "病態移行前" },
   { key: "2", value: "病態移行後" },
 ];
+
+export const shinryoShikibetsuCode = [
+  { key: "01", value: "全体に係る識別コード" },
+  { key: "11", value: "初診" },
+  { key: "12", value: "再診" },
+  { key: "13", value: "管理・リハ" },
+  { key: "14", value: "在宅" },
+  { key: "21", value: "投薬（内服）" },
+  { key: "22", value: "投薬（屯服）" },
+  { key: "23", value: "投薬（外用）" },
+  { key: "24", value: "調剤" },
+  { key: "26", value: "麻毒" },
+  { key: "27", value: "調基" },
+  { key: "31", value: "注射（皮下筋肉内）" },
+  { key: "32", value: "注射（静脈内）" },
+  { key: "33", value: "注射（その他）" },
+  { key: "39", value: "薬剤料減点" },
+  { key: "40", value: "処置" },
+  { key: "41", value: "処置・手術１" },
+  { key: "42", value: "処置・手術２" },
+  { key: "43", value: "処置・手術３" },
+  { key: "44", value: "処置・手術（その他）" },
+  { key: "50", value: "手術" },
+  { key: "54", value: "麻酔" },
+  { key: "60", value: "検査・病理" },
+  { key: "61", value: "歯冠修復・欠損補綴（修復・補綴１）" },
+  { key: "62", value: "歯冠修復・欠損補綴（修復・補綴２）" },
+  { key: "63", value: "歯冠修復・欠損補綴（修復・補綴３）" },
+  { key: "64", value: "歯冠修復・欠損補綴（その他）" },
+  { key: "70", value: "画像診断" },
+  { key: "80", value: "その他" },
+  { key: "90", value: "入院基本料" },
+  { key: "92", value: "特定入院料・その他" },
+  { key: "97", value: "食事療養・生活療養・標準負担額" },
+  { key: "99", value: "全体に係る識別コード" },
+];
+
+export const futanKubunCode = [
+  {
+    key: "1",
+    value: "医保",
+  },
+  {
+    key: "5",
+    value: "公費①",
+  },
+  {
+    key: "6",
+    value: "公費②",
+  },
+  {
+    key: "B",
+    value: "公費③",
+  },
+  {
+    key: "C",
+    value: "公費④",
+  },
+  {
+    key: "2",
+    value: "医保, 公費①",
+  },
+  {
+    key: "3",
+    value: "医保, 公費②",
+  },
+  {
+    key: "E",
+    value: "医保, 公費③",
+  },
+  {
+    key: "G",
+    value: "医保, 公費④",
+  },
+  {
+    key: "7",
+    value: "公費①, 公費②",
+  },
+  {
+    key: "H",
+    value: "公費①, 公費③",
+  },
+  {
+    key: "I",
+    value: "公費①, 公費④",
+  },
+  {
+    key: "J",
+    value: "公費②, 公費③",
+  },
+  {
+    key: "K",
+    value: "公費②, 公費④",
+  },
+  {
+    key: "L",
+    value: "公費③, 公費④",
+  },
+  {
+    key: "4",
+    value: "医保, 公費①, 公費②",
+  },
+  {
+    key: "M",
+    value: "医保, 公費①, 公費③",
+  },
+  {
+    key: "N",
+    value: "医保, 公費①, 公費④",
+  },
+  {
+    key: "O",
+    value: "医保, 公費②, 公費③",
+  },
+  {
+    key: "P",
+    value: "医保, 公費②, 公費④",
+  },
+  {
+    key: "Q",
+    value: "医保, 公費③, 公費④",
+  },
+  {
+    key: "R",
+    value: "公費①, 公費②, 公費③",
+  },
+  {
+    key: "S",
+    value: "公費①, 公費②, 公費④",
+  },
+  {
+    key: "T",
+    value: "公費①, 公費③, 公費④",
+  },
+  {
+    key: "U",
+    value: "公費②, 公費③, 公費④",
+  },
+  {
+    key: "V",
+    value: "医保, 公費①, 公費②, 公費③",
+  },
+  {
+    key: "W",
+    value: "医保, 公費①, 公費②, 公費④",
+  },
+  {
+    key: "X",
+    value: "医保, 公費①, 公費③, 公費④",
+  },
+  {
+    key: "Y",
+    value: "医保, 公費②, 公費③, 公費④",
+  },
+  {
+    key: "Z",
+    value: "公費①, 公費②, 公費③, 公費④",
+  },
+  {
+    key: "9",
+    value: "医保, 公費①, 公費②, 公費③, 公費④",
+  },
+];
