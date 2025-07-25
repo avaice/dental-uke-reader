@@ -55,7 +55,10 @@ export const todofukenCodes = [
   { key: "47", value: "沖縄県" },
 ];
 
-export const tensuhyo = [{ key: "3", value: "歯科点数表" }];
+export const tensuhyo = [
+  { key: "1", value: "医科" },
+  { key: "3", value: "歯科点数表" },
+];
 
 export const shisetsuKijunTodokedeCode = [
   { key: "01", value: "補管（クラウン・ブリッジ維持管理料）" },
