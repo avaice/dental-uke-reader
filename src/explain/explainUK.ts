@@ -31,7 +31,7 @@ const descriptions: (((record: RecordType) => string) | string)[] = [
     `マルチボリューム識別情報です。複数のUKEがある場合にこのUKEが何番目のUKEかを示します。値「${record.data}」はこのレセプトデータが${Number(record.data) + 1}番目であることを示します`,
 ] as const;
 
-export const explainUK = (record: RecordType) => {
+const explain = (record: RecordType) => {
   if (record.index >= descriptions.length) {
     return null;
   }
@@ -42,3 +42,5 @@ export const explainUK = (record: RecordType) => {
   }
   return description(record);
 };
+
+export default explain;
