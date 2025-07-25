@@ -10,7 +10,7 @@ function App() {
 
   return (
     <div className="p-4">
-      <div className="h-[100px]">
+      <div className="h-[150px]">
         <button
           type="button"
           onClick={loadUKE}
@@ -19,18 +19,18 @@ function App() {
           UKEファイルを読み込む
         </button>
         {record && (
-          <div>
-            <div className="flex gap-2 text-2xl">
+          <div className="flex flex-col gap-1 py-2">
+            <div className="flex gap-2 text-sm">
               <div className="w-[100px] shrink-0 font-bold">
                 {record.identification}({record.index})
               </div>
               <div className="w-full">Value: {record.data}</div>
             </div>
-            <div className="w-[500px]">{explain(record) ?? "unknown"}</div>
+            <div>{explain(record) ?? "unknown"}</div>
           </div>
         )}
       </div>
-      <div className="h-[calc(100svh_-_100px_-_32px)] w-full overflow-x-scroll rounded border border-gray-300 shadow-xl transition">
+      <div className="h-[calc(100svh_-_150px_-_32px)] w-full overflow-x-scroll rounded border border-gray-300 shadow-xl transition">
         {UKE && <UKERenderer UKE={UKE} setRecord={setRecord} />}
       </div>
     </div>

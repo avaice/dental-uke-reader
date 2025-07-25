@@ -23,13 +23,14 @@ export const UKERenderer = React.memo(
                   identification: row[0],
                   data: cell,
                   index: cellIndex,
+                  row,
                 });
               };
               return (
                 <button
                   type="button"
                   key={`cell-${rowIndex}-${cellIndex}`}
-                  className="h-[30px] w-[150px] shrink-0 overflow-x-scroll border-r p-1 last:border-r-4 last:border-r-red-500 odd:bg-gray-50 hover:bg-gray-200"
+                  className="h-[25px] w-[100px] shrink-0 overflow-x-scroll border-r px-1 py-0.5 text-sm transition last:border-r-4 last:border-r-red-500 odd:bg-gray-50 hover:bg-gray-200"
                   onMouseEnter={focus}
                   onFocus={focus}
                 >
