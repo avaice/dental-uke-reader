@@ -10,6 +10,7 @@ import explainRE from "./explainRE";
 import explainSI from "./explainSI";
 import explainSN from "./explainSN";
 import explainSS from "./explainSS";
+import explainTO from "./explainTO";
 import explainUK from "./explainUK";
 
 export const explain = (record: RecordType) => {
@@ -38,6 +39,8 @@ export const explain = (record: RecordType) => {
       return explainSI(record);
     case "IY":
       return explainIY(record);
+    case "TO":
+      return explainTO(record);
     default:
       return null;
   }

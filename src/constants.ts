@@ -652,3 +652,9 @@ export const iyakuhinKubunCode = [
   { key: "6", value: "歯科麻酔薬剤" },
   { key: "7", value: "特定薬剤" },
 ];
+
+export const tokuteiKizaiKasanCode = [
+  { key: "770020070", value: "酸素補正率（1.3）" },
+  { key: "770030070", value: "高気圧酸素加算（※要治療に係る気圧数）" },
+  { key: "799990070", value: "フィルム料 6歳未満乳幼児加算" },
+];
