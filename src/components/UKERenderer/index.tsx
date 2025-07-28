@@ -1,16 +1,20 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: <内容が不変なので、よい> */
-import React, { useState } from "react";
+import React from "react";
 import type { RecordType } from "../../types";
 
 export const UKERenderer = React.memo(
   ({
     UKE,
     setRecord,
+
+    isLocking,
+    setIsLocking,
   }: {
     UKE: string[][];
     setRecord: (record: RecordType) => void;
+    isLocking: string | null;
+    setIsLocking: (locking: string | null) => void;
   }) => {
-    const [isLocking, setIsLocking] = useState<string | null>(null);
     return (
       <div className="flex w-max flex-col">
         {UKE.map((row, rowIndex) => (

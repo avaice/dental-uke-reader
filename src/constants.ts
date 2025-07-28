@@ -1,3 +1,5 @@
+import type { KVType } from "./types";
+
 export const recordType = [
   { key: "UK", value: "受付情報" },
   { key: "IR", value: "医療機関情報" },
@@ -725,3 +727,79 @@ export const _mojiDataPattern = [
       "修飾語（部位）コードを記録する（全角数字）。※複数記録可能（複数記録する場合、続けて記録）。医療機関が記録した修飾語コードを翻訳して表示する",
   },
 ];
+
+export const relation = {
+  // UK (受付情報)
+  UK_1: shinsaShiharaiKikan,
+  UK_2: todofukenCodes,
+  UK_3: tensuhyo,
+  UK_8: shisetsuKijunTodokedeCode,
+
+  // IR (医療機関情報)
+  IR_1: shinsaShiharaiKikan,
+  IR_2: todofukenCodes,
+  IR_3: tensuhyo,
+  IR_8: shisetsuKijunTodokedeCode,
+
+  // RE (レセプト共通)
+  RE_2: receptTypeCode,
+  RE_5: sex,
+  RE_10: tenkiKubunCode,
+  RE_11: byotoKubunCode,
+  RE_13: receptTokkijikouCode,
+  RE_24: kanjaJotaiCode,
+
+  // HO (保険者)
+  HO_8: shokumuReasonCode,
+  HO_11: genmenKubunCode,
+
+  // KO (公費) - 特定のconstantsは使用されていない
+
+  // SN (資格確認)
+  SN_1: futanshaShubetsuCode,
+  SN_2: kakuninKubunCode,
+
+  // JD (受診日等)
+  JD_1: futanshaShubetsuCode,
+  JD_2: jushinKubunCode, // 2-32のインデックスで使用
+
+  // MF (窓口負担額)
+  MF_1: madoguchiFutanKubunCode,
+
+  // HS (傷病名部位)
+  HS_2: tenkiKubunCode,
+  HS_3: toothTypeCode,
+  HS_3_status: toothStatusCode,
+  HS_3_part: toothPartCode,
+  HS_8: byotaiIkouCode,
+
+  // SS (歯科診療行為)
+  SS_1: shinryoShikibetsuCode,
+  SS_2: futanKubunCode,
+
+  // SI (医科診療行為)
+  SI_1: shinryoShikibetsuCode,
+  SI_2: futanKubunCode,
+
+  // IY (医薬品)
+  IY_1: shinryoShikibetsuCode,
+  IY_2: futanKubunCode,
+  IY_7: iyakuhinKubunCode,
+
+  // TO (特定器材)
+  TO_1: shinryoShikibetsuCode,
+  TO_2: futanKubunCode,
+  TO_7: tokuteiKizaiKasanCode,
+  TO_9: tokuteiKizaiKasanCode,
+
+  // CO (コメント)
+  CO_1: shinryoShikibetsuCode,
+  CO_2: futanKubunCode,
+  CO_5: toothTypeCode,
+  CO_5_status: toothStatusCode,
+  CO_5_part: toothPartCode,
+
+  // GO (診療報酬請求書) - 特定のconstantsは使用されていない
+} satisfies {
+  [key: string]: KVType;
+};

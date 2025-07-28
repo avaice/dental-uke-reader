@@ -9,8 +9,8 @@ import type { RecordType } from "./types";
 
 function App() {
   const { loadUKE, UKE } = useUKE();
-  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
   const [record, setRecord] = useState<RecordType | null>(null);
+  const [isLocking, setIsLocking] = useState<string | null>(null);
 
   return (
     <div className="p-4">
@@ -24,14 +24,6 @@ function App() {
               className="rounded border px-2 py-0.5 transition hover:bg-gray-100 active:bg-gray-200"
             >
               UKEを読み込む
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}
-              className="w-[170px] rounded border px-2 py-0.5 transition hover:bg-gray-100 active:bg-gray-200"
-            >
-              サイドバーを
-              {isSidePanelOpen ? "閉じる" : "開く"}
             </button>
           </div>
         </div>
@@ -52,9 +44,18 @@ function App() {
       </div>
       <div className="flex h-[calc(100svh_-_150px_-_32px)] w-full gap-2">
         <div className="h-full w-full overflow-x-scroll rounded border transition-all">
-          {UKE && <UKERenderer UKE={UKE} setRecord={setRecord} />}
+          {UKE && (
+            <UKERenderer
+              UKE={UKE}
+              setRecord={setRecord}
+              isLocking={isLocking}
+              setIsLocking={setIsLocking}
+            />
+          )}
         </div>
-        {isSidePanelOpen && <SidePanel />}
+        {isLocking && (
+          <SidePanel record={record} onClose={() => setIsLocking(null)} />
+        )}
       </div>
     </div>
   );
