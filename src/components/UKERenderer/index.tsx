@@ -45,10 +45,10 @@ export const UKERenderer = React.memo(
                 <button
                   type="button"
                   key={`cell-${rowIndex}-${cellIndex}`}
-                  className={`h-[25px] w-[100px] min-w-[100px] shrink-0 overflow-x-scroll border-r px-1 py-0.5 text-sm transition-all last:border-r-4 last:border-r-red-500 ${
+                  className={`h-[25px] w-[100px] min-w-[100px] shrink-0 overflow-x-hidden border-r px-1 py-0.5 text-sm transition-all last:border-r-4 last:border-r-red-500 ${
                     isLocking === `cell-${rowIndex}-${cellIndex}`
                       ? "w-max bg-yellow-200"
-                      : "odd:bg-gray-50 hover:bg-gray-200"
+                      : "odd:bg-gray-50 hover:bg-gray-200 active:bg-gray-300"
                   }`}
                   style={
                     {
