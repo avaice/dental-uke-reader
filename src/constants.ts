@@ -9,6 +9,11 @@ export const recordType = [
   { key: "MF", value: "窓口負担額" },
   { key: "HS", value: "傷病名部位" },
   { key: "SS", value: "歯科診療行為" },
+  { key: "SI", value: "医科診療行為" },
+  { key: "IY", value: "医薬品" },
+  { key: "TO", value: "特的機材" },
+  { key: "CO", value: "コメント" },
+  { key: "GO", values: "診療報酬請求書" },
 ];
 
 export const shinsaShiharaiKikan = [
