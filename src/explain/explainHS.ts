@@ -18,7 +18,11 @@ const descriptions: (((record: RecordType) => string) | string)[] = [
         : ""
     }`,
   (record) => {
-    let description = `歯式コードを示します。値「${record.data}」は「`;
+    let description = `歯式コードを示します。`;
+    if (record.data === "") {
+      return description;
+    }
+    description += `値「${record.data}」は「`;
     description += record.data
       .match(/.{1,6}/g)
       ?.map((code) => {
