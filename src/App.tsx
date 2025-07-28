@@ -8,12 +8,43 @@ import { findFromKV } from "./tools";
 import type { RecordType } from "./types";
 
 function App() {
-  const { loadUKE, UKE } = useUKE();
+  const {
+    loadUKE,
+    UKE,
+    isDragOver,
+    handleDragOver,
+    handleDragLeave,
+    handleDrop,
+  } = useUKE();
   const [record, setRecord] = useState<RecordType | null>(null);
   const [isLocking, setIsLocking] = useState<string | null>(null);
 
   return (
-    <div className="p-4">
+    <div
+      className={`min-h-screen p-4 transition-colors ${
+        isDragOver ? "border-2 border-blue-400 border-dashed bg-blue-50" : ""
+      }`}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      role="application"
+      aria-label="UKE file drop zone"
+    >
+      {isDragOver && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-100 bg-opacity-80">
+          <div className="rounded-lg border border-gray-400 border-dashed bg-white p-8">
+            <div className="text-center">
+              <div className="mb-4 text-4xl">📁</div>
+              <div className="mb-2 font-bold text-xl">
+                UKEファイルをドロップしてください
+              </div>
+              <div className="text-gray-600">
+                .UKE形式のファイルのみ対応しています
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="h-[150px]">
         <div className="flex justify-between gap-2">
           <h2 className="font-bold text-2xl">UKE Reader</h2>
