@@ -642,3 +642,13 @@ export const futanKubunCode = [
     value: "医保, 公費①, 公費②, 公費③, 公費④",
   },
 ];
+
+export const iyakuhinKubunCode = [
+  { key: "1", value: "内服薬剤" },
+  { key: "2", value: "屯服薬剤" },
+  { key: "3", value: "外用薬剤" },
+  { key: "4", value: "注射薬剤" },
+  { key: "5", value: "麻酔・処置・手術等で使用する薬剤（６・７以外）" },
+  { key: "6", value: "歯科麻酔薬剤" },
+  { key: "7", value: "特定薬剤" },
+];

@@ -1,0 +1,47 @@
+import {
+  futanKubunCode,
+  iyakuhinKubunCode,
+  shinryoShikibetsuCode,
+} from "../constants";
+import { findFromKV } from "../tools";
+import type { RecordType } from "../types";
+
+const descriptions: (((record: RecordType) => string) | string)[] = [
+  "この行が医薬品レコードであることを示します",
+  (record) =>
+    `診療識別を示します。${
+      record.data !== ""
+        ? `値「${record.data}」は「${findFromKV(shinryoShikibetsuCode, record.data)}」です`
+        : ""
+    }`,
+  (record) =>
+    `診療負担区分を示します。${
+      record.data !== ""
+        ? `値「${record.data}」は「${findFromKV(futanKubunCode, record.data)}」です`
+        : ""
+    }`,
+  "医薬品コードを示します",
+  "使用量を示します",
+  "点数を示します。合剤の場合は最後のレコードのみ値が記録されます",
+  "回数を示します",
+  (record) =>
+    `医薬品区分を示します。値「${record.data}」は「${findFromKV(
+      iyakuhinKubunCode,
+      record.data,
+    )}」です`,
+  ...Array.from({ length: 31 }, (_, i) => `${i + 1}日の使用回数を示します`),
+] as const;
+
+const explain = (record: RecordType) => {
+  if (record.index >= descriptions.length) {
+    return null;
+  }
+
+  const description = descriptions[record.index];
+  if (typeof description === "string") {
+    return description;
+  }
+  return description(record);
+};
+
+export default explain;
