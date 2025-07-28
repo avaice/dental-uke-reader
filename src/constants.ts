@@ -13,7 +13,7 @@ export const recordType = [
   { key: "IY", value: "医薬品" },
   { key: "TO", value: "特的機材" },
   { key: "CO", value: "コメント" },
-  { key: "GO", values: "診療報酬請求書" },
+  { key: "GO", value: "診療報酬請求書" },
 ];
 
 export const shinsaShiharaiKikan = [
