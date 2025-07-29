@@ -1,17 +1,40 @@
+import { useMemo } from "react";
 import { relation } from "../../constants";
 import type { RecordType } from "../../types";
 import { KVRenderer } from "../KVRenderer";
+import HS_3_Property from "./HS_3_Property";
+import IR_8_Property from "./IR_8_Property";
+import RE_11_Property from "./RE_11_Property";
+import RE_13_Property from "./RE_13_Property";
+import UK_8_Property from "./UK_8_Property";
 
 export const Property = (props: { record: RecordType }) => {
-  const key =
-    `${props.record.identification}_${props.record.index}` as keyof typeof relation;
-  const rel = relation[key];
-  if (rel !== undefined) {
-    return (
-      <div className="flex max-h-full max-w-full flex-col gap-2 overflow-y-scroll">
-        <KVRenderer data={rel} highlight={[props.record.data]} />
-      </div>
-    );
-  }
-  return null;
+  const key = `${props.record.identification}_${props.record.index}` as const;
+  const rel = relation[key as keyof typeof relation];
+
+  const contents = useMemo(() => {
+    switch (key) {
+      case "UK_8":
+        return <UK_8_Property record={props.record} rel={rel} />;
+      case "RE_11":
+        return <RE_11_Property record={props.record} rel={rel} />;
+      case "RE_13":
+        return <RE_13_Property record={props.record} rel={rel} />;
+      case "IR_8":
+        return <IR_8_Property record={props.record} rel={rel} />;
+      case "HS_3":
+        return <HS_3_Property record={props.record} rel={rel} />;
+      default:
+        if (rel !== undefined) {
+          return (
+            <div className="flex max-h-full max-w-full flex-col gap-2 overflow-y-scroll">
+              <KVRenderer data={rel} highlight={[props.record.data]} />
+            </div>
+          );
+        }
+        return null;
+    }
+  }, [key, props.record, rel]);
+
+  return <div className="h-full overflow-y-scroll p-4">{contents}</div>;
 };
