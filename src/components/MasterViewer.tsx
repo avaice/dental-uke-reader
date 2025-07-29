@@ -146,13 +146,7 @@ export const MasterViewer = (props: Props) => {
   }
 
   if (status === "loadingMaster") {
-    return (
-      <MessageWithEmoji
-        message="マスターを読み込んでいます"
-        emoji="💻️"
-        className="text-center"
-      />
-    );
+    return null;
   }
 
   if (status === "noData") {

@@ -37,7 +37,11 @@ export const useResizable = (props: {
       ref: HTMLElement,
     ) => {
       const movementX = startX - clientX;
-      ref.style.width = `${startPx + movementX}px`;
+      const tobeWidth = Math.min(
+        Math.max(startPx + movementX, 400),
+        window.innerWidth - 400,
+      );
+      ref.style.width = `${tobeWidth}px`;
     };
 
     const finishResize = (ref: HTMLElement) => {

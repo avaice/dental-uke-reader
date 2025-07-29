@@ -44,7 +44,7 @@ export const SidePanel = (props: Props) => {
             ✕
           </Button>
         </div>
-        <div className="h-[calc(100%-50px)] text-sm">
+        <div className="h-[calc(100%-50px)] min-w-[400px] text-sm">
           {props.record && <Property record={props.record} />}
         </div>
       </div>
