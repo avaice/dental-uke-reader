@@ -1,5 +1,6 @@
 import { masterManageStore } from "@master/masterManageInstance";
 import { UKEAtom } from "@misc/atoms";
+import { cn } from "@misc/tools";
 import type { RecordType } from "@misc/types";
 import { useAtomValue } from "jotai";
 import { useEffect, useMemo, useState } from "react";
@@ -44,7 +45,7 @@ export const MasterViewer = (props: Props) => {
   >("checkingMaster");
 
   // 診療日時点でマスターが有効か
-  const isMasterValid = useMemo(() => {
+  const masterValidation = useMemo(() => {
     if (status === "success" && UKE) {
       const date = getDate(UKE, props.record);
       if (props.record.identification === "HS" && date) {
@@ -63,13 +64,23 @@ export const MasterViewer = (props: Props) => {
             date >= masterChangeDateValue &&
             date <= masterDeprecationDateValue
           ) {
-            return null;
+            return {
+              status: "valid",
+              message: `診療開始日時点のマスターを表示しています`,
+            };
           } else {
-            return `診療開始日がマスターの有効期間外です。有効期間: ${masterChangeDate.value} ~ ${masterDeprecationDate.value} (診療開始日: ${date})`;
+            return {
+              status: "outdated",
+              message: `診療開始日がアプリに組み込まれたマスターの有効期間外なので、注意してください。有効期間: ${masterChangeDate.value} ~ ${masterDeprecationDate.value} (診療開始日: ${date})`,
+            };
           }
         }
       } else {
-        return "診療開始日が取得できなかったため、最新のマスターデータを表示します";
+        return {
+          status: "error",
+          message:
+            "診療開始日が取得できなかったため、最新のマスターデータを表示します",
+        };
       }
     }
     return null;
@@ -111,8 +122,17 @@ export const MasterViewer = (props: Props) => {
     return (
       <div className="flex flex-col gap-2">
         <h3 className="font-bold text-lg">{props.record.data}</h3>
-        {isMasterValid && (
-          <div className="rounded bg-red-100 p-2 text-xs">{isMasterValid}</div>
+        {masterValidation && (
+          <div
+            className={cn(
+              "rounded p-2 text-xs",
+              masterValidation.status === "valid" && "bg-green-100",
+              masterValidation.status === "outdated" && "bg-yellow-100",
+              masterValidation.status === "error" && "bg-red-100",
+            )}
+          >
+            {masterValidation.message}
+          </div>
         )}
         <ul className="flex w-full flex-col gap-1">
           {result.map((items, i) =>
