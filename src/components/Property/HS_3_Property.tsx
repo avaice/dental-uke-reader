@@ -11,7 +11,9 @@ type Props = {
 };
 
 const Property = (props: Props) => {
-  const [selectedCode, setSelectedCode] = useState<string | null>(null);
+  const [selectedCode, setSelectedCode] = useState<string | null>(
+    props.record.data.match(/.{1,6}/g)?.[0] ?? null,
+  );
   const toothInfo = useMemo(() => {
     if (!selectedCode) return null;
     const toothType = findFromKV(toothTypeCode, selectedCode.slice(0, 4));
