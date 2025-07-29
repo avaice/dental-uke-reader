@@ -39,5 +39,9 @@ export const Property = (props: { record: RecordType }) => {
     }
   }, [key, props.record, rel]);
 
-  return <div className="h-full overflow-y-scroll p-4">{contents}</div>;
+  return (
+    <div className="h-full overflow-y-scroll p-4" key={key}>
+      {contents}
+    </div>
+  );
 };
