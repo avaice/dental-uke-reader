@@ -1,5 +1,6 @@
 import { KVRenderer } from "@components/KVRenderer";
 import { MasterViewer } from "@components/MasterViewer";
+import { commentMaster } from "@master/comment";
 import { iyakuhinMaster } from "@master/iyakuhin";
 import { shikaMaster } from "@master/shika";
 import { shobyomeiMaster } from "@master/shobyomei";
@@ -55,6 +56,15 @@ export const Property = (props: { record: RecordType }) => {
             key={props.record.data}
           />
         );
+      case "CO_3":
+        return (
+          <MasterViewer
+            master={commentMaster}
+            record={props.record}
+            key={props.record.data}
+          />
+        );
+
       /**
        * 固定値
        */
