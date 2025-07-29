@@ -1,4 +1,5 @@
 import { loadCommentMaster } from "./comment/loader";
+import { loadIkaMaster } from "./ika/loader";
 import { loadIyakuhinMaster } from "./iyakuhin/loader";
 import { loadShikaMaster } from "./shika/loader";
 import { loadShobyomeiMaster } from "./shobyomei/loader";
@@ -10,4 +11,5 @@ export const loadMaster = async () => {
   await loadShikaMaster();
   await loadTokuteikizaiMaster();
   await loadCommentMaster();
+  await loadIkaMaster();
 };
