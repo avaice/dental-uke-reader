@@ -3,6 +3,7 @@ import { MasterViewer } from "@components/MasterViewer";
 import { iyakuhinMaster } from "@master/iyakuhin";
 import { shikaMaster } from "@master/shika";
 import { shobyomeiMaster } from "@master/shobyomei";
+import { tokuteikizaiMaster } from "@master/tokuteikizai";
 import { relation } from "@misc/constants";
 import type { RecordType } from "@misc/types";
 import { useMemo } from "react";
@@ -46,7 +47,14 @@ export const Property = (props: { record: RecordType }) => {
             key={props.record.data}
           />
         );
-
+      case "TO_3":
+        return (
+          <MasterViewer
+            master={tokuteikizaiMaster}
+            record={props.record}
+            key={props.record.data}
+          />
+        );
       /**
        * 固定値
        */
