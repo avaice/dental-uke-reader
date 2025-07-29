@@ -1,4 +1,6 @@
 import { KVRenderer } from "@components/KVRenderer";
+import { MasterViewer } from "@components/MasterViewer";
+import { shobyomeiMaster } from "@master/shobyomei";
 import { relation } from "@misc/constants";
 import type { RecordType } from "@misc/types";
 import { useMemo } from "react";
@@ -15,6 +17,21 @@ export const Property = (props: { record: RecordType }) => {
 
   const contents = useMemo(() => {
     switch (key) {
+      /**
+       * マスター
+       */
+      case "HS_4":
+        return (
+          <MasterViewer
+            master={shobyomeiMaster}
+            record={props.record}
+            key={props.record.data}
+          />
+        );
+
+      /**
+       * 固定値
+       */
       case "UK_8":
         return <UK_8_Property record={props.record} rel={rel} />;
       case "RE_11":

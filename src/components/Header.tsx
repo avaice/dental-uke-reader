@@ -1,4 +1,5 @@
-import explain from "@explain/explainCO";
+import { explain } from "@explain/index";
+import { loadMaster } from "@master/loadMaster";
 import { recordType } from "@misc/constants";
 import { findFromKV } from "@misc/tools";
 import type { RecordType } from "@misc/types";
@@ -15,6 +16,7 @@ export const Header = (props: Props) => (
       <h2 className="font-bold text-2xl">UKE Reader</h2>
       <div className="flex gap-2">
         <Button onClick={props.loadUKE}>UKEを読み込む</Button>
+        <Button onClick={loadMaster}>マスターを読み込む</Button>
       </div>
     </div>
     {props.record && (

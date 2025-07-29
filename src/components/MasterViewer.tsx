@@ -1,0 +1,145 @@
+import { masterManageStore } from "@master/masterManageInstance";
+import { UKEAtom } from "@misc/atoms";
+import type { RecordType } from "@misc/types";
+import { useAtomValue } from "jotai";
+import { useEffect, useMemo, useState } from "react";
+
+type Props = {
+  master: {
+    header: readonly { name: string; value: string }[];
+    store: LocalForage;
+  };
+  record: RecordType;
+};
+
+const getDate = (UKE: string[][], record: RecordType) => {
+  // 入院レセプト
+  if (record.row[1] !== "") {
+    return Number(record.row[1]);
+  }
+
+  const p = UKE.findIndex((r) => r === record.row);
+  if (p === -1) {
+    return null;
+  }
+  for (let i = p; i >= 0; i--) {
+    if (UKE[i][0] === "RE") {
+      return Number(UKE[i][9]);
+    }
+  }
+  return null;
+};
+
+export const MasterViewer = (props: Props) => {
+  const UKE = useAtomValue(UKEAtom);
+  const { store, header } = props.master;
+  const [result, setResult] = useState<Record<string, string>[][]>([[]]);
+  const [status, setStatus] = useState<
+    | "checkingMaster"
+    | "masterFound"
+    | "loadingMaster"
+    | "masterNotFound"
+    | "success"
+    | "error"
+  >("checkingMaster");
+
+  // 診療日時点でマスターが有効か
+  const isMasterValid = useMemo(() => {
+    if (status === "success" && UKE) {
+      const date = getDate(UKE, props.record);
+      if (props.record.identification === "HS" && date) {
+        const masterChangeDate = result[0].find(
+          (item) => item.key === "変更年月日",
+        );
+        const masterDeprecationDate = result[0].find(
+          (item) => item.key === "廃止年月日",
+        );
+        if (masterChangeDate && masterDeprecationDate) {
+          const masterChangeDateValue = Number(masterChangeDate.value);
+          const masterDeprecationDateValue = Number(
+            masterDeprecationDate.value,
+          );
+          if (
+            date >= masterChangeDateValue &&
+            date <= masterDeprecationDateValue
+          ) {
+            return null;
+          } else {
+            return `診療開始日がマスターの有効期間外です。有効期間: ${masterChangeDate.value} ~ ${masterDeprecationDate.value} (診療開始日: ${date})`;
+          }
+        }
+      } else {
+        return "診療開始日が取得できなかったため、最新のマスターデータを表示します";
+      }
+    }
+    return null;
+  }, [props.record.identification, props.record, result, status, UKE]);
+
+  useEffect(() => {
+    masterManageStore.getItem("shobyomeiMasterVersion").then((value) => {
+      if (value === null) {
+        setStatus("masterNotFound");
+      } else {
+        setStatus("masterFound");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (status === "masterFound") {
+      setStatus("loadingMaster");
+      store.getItem(props.record.data).then((value) => {
+        setResult(
+          (value as Record<string, string>[]).map((v) =>
+            Object.entries(v).map(([k, v]) => ({ key: k, value: v })),
+          ),
+        );
+        setStatus("success");
+      });
+    }
+  }, [store, props.record.data, status]);
+
+  if (status === "masterNotFound") {
+    return <div>Master not found</div>;
+  }
+
+  if (status === "loadingMaster") {
+    return <div>Loading master...</div>;
+  }
+
+  if (status === "success") {
+    return (
+      <div className="flex flex-col gap-2">
+        <h3 className="font-bold text-lg">{props.record.data}</h3>
+        {isMasterValid && (
+          <div className="rounded bg-red-100 p-2 text-xs">{isMasterValid}</div>
+        )}
+        <ul className="flex w-full flex-col gap-1">
+          {result.map((items, i) =>
+            items.map((item, j) => (
+              <li
+                key={`${item.key}-${i}-${j}`}
+                className="flex w-full flex-col gap-2 bg-gray-100 p-2"
+              >
+                <details className="group ml-2">
+                  <summary className="flex cursor-pointer items-center">
+                    <span className="mr-2 rotate-0 select-none group-open:rotate-90">
+                      ▶
+                    </span>
+                    <span className="w-[200px] shrink-0">{item.key}</span>
+                    <span className="w-full">{item.value}</span>
+                  </summary>
+                  <div className="mt-1.5 rounded bg-yellow-100 p-2 text-xs">
+                    {header.find((h) => h.name === item.key)?.value}
+                  </div>
+                </details>
+              </li>
+            )),
+          )}
+        </ul>
+      </div>
+    );
+  }
+
+  return null;
+};

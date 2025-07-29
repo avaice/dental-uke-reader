@@ -1,21 +1,26 @@
+import { UKEAtom } from "@misc/atoms";
+import { useAtom } from "jotai";
 import { useCallback, useState } from "react";
 
 export const useUKE = () => {
-  const [UKE, setUKE] = useState<string[][] | null>(null);
+  const [UKE, setUKE] = useAtom(UKEAtom);
   const [isDragOver, setIsDragOver] = useState(false);
 
-  const processUKEFile = useCallback((file: File) => {
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const text = e.target?.result as string;
-      const arr = text
-        .trim()
-        .split("\n")
-        .map((line) => line.split(","));
-      setUKE(arr);
-    };
-    reader.readAsText(file, "shift-jis");
-  }, []);
+  const processUKEFile = useCallback(
+    (file: File) => {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const text = e.target?.result as string;
+        const arr = text
+          .trim()
+          .split("\n")
+          .map((line) => line.split(","));
+        setUKE(arr);
+      };
+      reader.readAsText(file, "shift-jis");
+    },
+    [setUKE],
+  );
 
   const loadUKE = useCallback(async () => {
     const fileInput = document.createElement("input");
