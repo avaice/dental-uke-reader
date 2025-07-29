@@ -15,7 +15,7 @@ type Props = {
 
 const getDate = (UKE: string[][], record: RecordType) => {
   // 入院レセプト
-  if (record.row[1] !== "") {
+  if (record.identification === "HS" && record.row[1] !== "") {
     return Number(record.row[1]);
   }
 
@@ -48,7 +48,7 @@ export const MasterViewer = (props: Props) => {
   const masterValidation = useMemo(() => {
     if (status === "success" && UKE) {
       const date = getDate(UKE, props.record);
-      if (props.record.identification === "HS" && date) {
+      if (date) {
         const masterChangeDate = result[0].find(
           (item) => item.key === "変更年月日",
         );

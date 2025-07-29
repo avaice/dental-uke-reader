@@ -1,5 +1,6 @@
 import { KVRenderer } from "@components/KVRenderer";
 import { MasterViewer } from "@components/MasterViewer";
+import { iyakuhinMaster } from "@master/iyakuhin";
 import { shobyomeiMaster } from "@master/shobyomei";
 import { relation } from "@misc/constants";
 import type { RecordType } from "@misc/types";
@@ -24,6 +25,14 @@ export const Property = (props: { record: RecordType }) => {
         return (
           <MasterViewer
             master={shobyomeiMaster}
+            record={props.record}
+            key={props.record.data}
+          />
+        );
+      case "IY_3":
+        return (
+          <MasterViewer
+            master={iyakuhinMaster}
             record={props.record}
             key={props.record.data}
           />
