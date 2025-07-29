@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from "./components/_parts/Button";
 import { SidePanel } from "./components/SidePanel";
 import { UKERenderer } from "./components/UKERenderer";
 import { recordType } from "./constants";
@@ -49,13 +50,7 @@ function App() {
         <div className="flex justify-between gap-2">
           <h2 className="font-bold text-2xl">UKE Reader</h2>
           <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={loadUKE}
-              className="rounded border px-2 py-0.5 transition hover:bg-gray-100 active:bg-gray-200"
-            >
-              UKEを読み込む
-            </button>
+            <Button onClick={loadUKE}>UKEを読み込む</Button>
           </div>
         </div>
         {record && (

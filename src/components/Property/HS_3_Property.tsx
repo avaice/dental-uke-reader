@@ -1,6 +1,8 @@
+import { useMemo, useState } from "react";
 import { toothPartCode, toothStatusCode, toothTypeCode } from "../../constants";
-import { findFromKV } from "../../tools";
+import { cn, findFromKV } from "../../tools";
 import type { KVType, RecordType } from "../../types";
+import { Button } from "../_parts/Button";
 import { KVRenderer } from "../KVRenderer";
 
 type Props = {
@@ -9,36 +11,58 @@ type Props = {
 };
 
 const Property = (props: Props) => {
+  const [selectedCode, setSelectedCode] = useState<string | null>(null);
+  const toothInfo = useMemo(() => {
+    if (!selectedCode) return null;
+    const toothType = findFromKV(toothTypeCode, selectedCode.slice(0, 4));
+    const toothStatus = findFromKV(toothStatusCode, selectedCode.slice(4, 5));
+    const toothPart = findFromKV(toothPartCode, selectedCode.slice(5, 6));
+    return { toothType, toothStatus, toothPart };
+  }, [selectedCode]);
   return (
     <div className="flex flex-col gap-2">
-      <p>6文字区切りで解釈します。</p>
+      {toothInfo && (
+        <h3 className="text-lg">
+          {toothInfo.toothType} {toothInfo.toothStatus} {toothInfo.toothPart}
+        </h3>
+      )}
       <div className="flex flex-wrap gap-2">
         {props.record.data.match(/.{1,6}/g)?.map((code) => {
-          const toothType = findFromKV(toothTypeCode, code.slice(0, 4));
-          const toothStatus = findFromKV(toothStatusCode, code.slice(4, 5));
-          const toothPart = findFromKV(toothPartCode, code.slice(5, 6));
           return (
-            <button
-              type="button"
-              className="rounded border px-1 py-0.5"
+            <Button
               key={code}
+              onClick={() => setSelectedCode(code)}
+              className={cn(
+                code === selectedCode &&
+                  "bg-gray-900 text-white hover:bg-gray-900 active:bg-gray-900",
+              )}
+              disabled={code === selectedCode}
             >
               {`${code}`}
-            </button>
+            </Button>
           );
         })}
       </div>
       <div>
-        <h3>1~4文字目</h3>
-        <KVRenderer data={toothTypeCode} highlight={[]} />
+        <h4>1~4文字目</h4>
+        <KVRenderer
+          data={toothTypeCode}
+          highlight={selectedCode ? [selectedCode.slice(0, 4)] : []}
+        />
       </div>
       <div>
-        <h3>5文字目</h3>
-        <KVRenderer data={toothStatusCode} highlight={[]} />
+        <h4>5文字目</h4>
+        <KVRenderer
+          data={toothStatusCode}
+          highlight={selectedCode ? [selectedCode.slice(4, 5)] : []}
+        />
       </div>
       <div>
-        <h3>6文字目</h3>
-        <KVRenderer data={toothPartCode} highlight={[]} />
+        <h4>6文字目</h4>
+        <KVRenderer
+          data={toothPartCode}
+          highlight={selectedCode ? [selectedCode.slice(5, 6)] : []}
+        />
       </div>
     </div>
   );

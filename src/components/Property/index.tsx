@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { relation } from "../../constants";
 import type { RecordType } from "../../types";
 import { KVRenderer } from "../KVRenderer";
+import CO_5_Property from "./CO_5_Property";
 import HS_3_Property from "./HS_3_Property";
 import IR_8_Property from "./IR_8_Property";
 import RE_11_Property from "./RE_11_Property";
@@ -24,6 +25,8 @@ export const Property = (props: { record: RecordType }) => {
         return <IR_8_Property record={props.record} rel={rel} />;
       case "HS_3":
         return <HS_3_Property record={props.record} rel={rel} />;
+      case "CO_5":
+        return <CO_5_Property record={props.record} rel={rel} />;
       default:
         if (rel !== undefined) {
           return (
