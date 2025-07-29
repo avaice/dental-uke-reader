@@ -1,3 +1,4 @@
+import { loadChozaiMaster } from "./chozai/loader";
 import { loadCommentMaster } from "./comment/loader";
 import { loadIkaMaster } from "./ika/loader";
 import { loadIyakuhinMaster } from "./iyakuhin/loader";
@@ -14,4 +15,5 @@ export const loadMaster = async (callback: (message: string) => void) => {
   await loadCommentMaster(callback);
   await loadIkaMaster(callback);
   await loadShushokugoMaster(callback);
+  await loadChozaiMaster(callback);
 };
