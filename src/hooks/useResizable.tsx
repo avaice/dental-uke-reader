@@ -1,19 +1,25 @@
 import { useEffect, useMemo } from "react";
 
 export const useResizable = (props: {
-  default: number;
+  default?: number;
   ref: React.RefObject<HTMLElement | null>;
 }) => {
+  const defaultWidth = useMemo(() => {
+    const width = localStorage.getItem("resizableWidth");
+    if (!width) return props.default;
+    return parseInt(width);
+  }, [props.default]);
+
   useEffect(() => {
     if (!props.ref.current) return;
-    props.ref.current.style.width = `${props.default}px`;
-  }, [props.ref, props.default]);
+    props.ref.current.style.width = `${defaultWidth}px`;
+  }, [props.ref, defaultWidth]);
 
   const resizeHandleComponent = useMemo(() => {
     return (
       // biome-ignore lint/a11y/noStaticElementInteractions: <Tab操作可能なので問題なし>
       <div
-        className="my-32 h-[calc(100%_-_256px)] w-2 cursor-col-resize rounded bg-gray-200 transition hover:bg-gray-300 active:bg-gray-400"
+        className="my-32 h-[calc(100%_-_256px)] w-2 shrink-0 cursor-col-resize rounded bg-gray-200 transition hover:bg-gray-300 active:bg-gray-400"
         onMouseDown={(e) => {
           const ref = props.ref?.current;
           if (!ref) return;
@@ -25,7 +31,9 @@ export const useResizable = (props: {
             ref.style.width = `${startPx + movementX}px`;
           };
           const handleMouseUp = () => {
+            localStorage.setItem("resizableWidth", ref.style.width);
             document.removeEventListener("mousemove", handleMouseMove);
+            document.removeEventListener("mouseup", handleMouseUp);
           };
           document.addEventListener("mousemove", handleMouseMove);
           document.addEventListener("mouseup", handleMouseUp);

@@ -5,7 +5,9 @@ import master from "./master_data_utf8.txt";
 
 const VERSION = "20250729";
 
-export const loadShobyomeiMaster = async () => {
+export const loadShobyomeiMaster = async (
+  callback: (message: string) => void,
+) => {
   const version = await masterManageStore.getItem("shobyomeiMasterVersion");
   if (version === VERSION) {
     console.log("傷病名マスターはすでに読み込まれています");
@@ -54,7 +56,7 @@ export const loadShobyomeiMaster = async () => {
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      console.log(`Resolved ${i} / ${lines.length}`);
+      callback(`Resolved 傷病名マスター ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("shobyomeiMasterVersion", VERSION);

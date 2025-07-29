@@ -5,7 +5,7 @@ import master from "./master_data_utf8.txt";
 
 const VERSION = "20250729";
 
-export const loadShikaMaster = async () => {
+export const loadShikaMaster = async (callback: (message: string) => void) => {
   const version = await masterManageStore.getItem("shikaMasterVersion");
   if (version === VERSION) {
     console.log("歯科診療行為マスターはすでに読み込まれています");
@@ -54,7 +54,7 @@ export const loadShikaMaster = async () => {
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      console.log(`Resolved ${i} / ${lines.length}`);
+      callback(`Resolved 歯科診療行為マスター ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("shikaMasterVersion", VERSION);

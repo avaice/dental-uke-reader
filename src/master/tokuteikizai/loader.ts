@@ -5,7 +5,9 @@ import master from "./master_data_utf8.txt";
 
 const VERSION = "20250729";
 
-export const loadTokuteikizaiMaster = async () => {
+export const loadTokuteikizaiMaster = async (
+  callback: (message: string) => void,
+) => {
   const version = await masterManageStore.getItem("tokuteikizaiMasterVersion");
   if (version === VERSION) {
     console.log("特定器材マスターはすでに読み込まれています");
@@ -56,7 +58,7 @@ export const loadTokuteikizaiMaster = async () => {
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      console.log(`Resolved ${i} / ${lines.length}`);
+      callback(`Resolved 特定器材マスター ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("tokuteikizaiMasterVersion", VERSION);

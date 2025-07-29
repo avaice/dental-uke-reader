@@ -5,11 +5,11 @@ import { loadShikaMaster } from "./shika/loader";
 import { loadShobyomeiMaster } from "./shobyomei/loader";
 import { loadTokuteikizaiMaster } from "./tokuteikizai/loader";
 
-export const loadMaster = async () => {
-  await loadShobyomeiMaster();
-  await loadIyakuhinMaster();
-  await loadShikaMaster();
-  await loadTokuteikizaiMaster();
-  await loadCommentMaster();
-  await loadIkaMaster();
+export const loadMaster = async (callback: (message: string) => void) => {
+  await loadShobyomeiMaster(callback);
+  await loadIyakuhinMaster(callback);
+  await loadShikaMaster(callback);
+  await loadTokuteikizaiMaster(callback);
+  await loadCommentMaster(callback);
+  await loadIkaMaster(callback);
 };

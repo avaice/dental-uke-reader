@@ -4,6 +4,7 @@ import { cn } from "@misc/tools";
 import type { RecordType } from "@misc/types";
 import { useAtomValue } from "jotai";
 import { useEffect, useMemo, useState } from "react";
+import { MessageWithEmoji } from "./MessageWithEmoji";
 
 type Props = {
   master: {
@@ -41,6 +42,7 @@ export const MasterViewer = (props: Props) => {
     | "masterFound"
     | "loadingMaster"
     | "masterNotFound"
+    | "noData"
     | "success"
     | "error"
   >("checkingMaster");
@@ -101,6 +103,10 @@ export const MasterViewer = (props: Props) => {
     if (status === "masterFound") {
       setStatus("loadingMaster");
       store.getItem(props.record.data).then((value) => {
+        if (value === null) {
+          setStatus("noData");
+          return;
+        }
         setResult(
           (value as Record<string, string>[]).map((v) =>
             Object.entries(v).map(([k, v]) => ({ key: k, value: v })),
@@ -112,11 +118,33 @@ export const MasterViewer = (props: Props) => {
   }, [store, props.record.data, status]);
 
   if (status === "masterNotFound") {
-    return <div>マスターを読み込んでください</div>;
+    return (
+      <MessageWithEmoji
+        message="マスターを読み込んでください"
+        emoji="🫥"
+        className="text-center"
+      />
+    );
   }
 
   if (status === "loadingMaster") {
-    return <div>Loading master...</div>;
+    return (
+      <MessageWithEmoji
+        message="マスターを読み込んでいます"
+        emoji="💻️"
+        className="text-center"
+      />
+    );
+  }
+
+  if (status === "noData") {
+    return (
+      <MessageWithEmoji
+        message="マスターにデータがありません"
+        emoji="🍂"
+        className="text-center"
+      />
+    );
   }
 
   if (status === "success") {

@@ -5,7 +5,9 @@ import master from "./master_data_utf8.txt";
 
 const VERSION = "20250729";
 
-export const loadCommentMaster = async () => {
+export const loadCommentMaster = async (
+  callback: (message: string) => void,
+) => {
   const version = await masterManageStore.getItem("commentMasterVersion");
   if (version === VERSION) {
     console.log("コメントマスターはすでに読み込まれています");
@@ -54,7 +56,7 @@ export const loadCommentMaster = async () => {
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      console.log(`Resolved ${i} / ${lines.length}`);
+      callback(`Resolved コメントマスター ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("commentMasterVersion", VERSION);

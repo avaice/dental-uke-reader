@@ -44,9 +44,11 @@ function App() {
             />
           )}
         </div>
-        {isLocking && (
-          <SidePanel record={record} onClose={() => setIsLocking(null)} />
-        )}
+        <SidePanel
+          record={record}
+          onClose={() => setIsLocking(null)}
+          visible={!!isLocking}
+        />
       </div>
     </div>
   );

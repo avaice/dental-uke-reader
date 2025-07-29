@@ -5,7 +5,9 @@ import master from "./master_data_utf8.txt";
 
 const VERSION = "20250729";
 
-export const loadIyakuhinMaster = async () => {
+export const loadIyakuhinMaster = async (
+  callback: (message: string) => void,
+) => {
   const version = await masterManageStore.getItem("iyakuhinMasterVersion");
   if (version === VERSION) {
     console.log("医薬品マスターはすでに読み込まれています");
@@ -54,7 +56,7 @@ export const loadIyakuhinMaster = async () => {
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      console.log(`Resolved ${i} / ${lines.length}`);
+      callback(`Resolved 医薬品マスター ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("iyakuhinMasterVersion", VERSION);
