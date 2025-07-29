@@ -6,6 +6,7 @@ import { ikaMaster } from "@master/ika";
 import { iyakuhinMaster } from "@master/iyakuhin";
 import { shikaMaster } from "@master/shika";
 import { shobyomeiMaster } from "@master/shobyomei";
+import { shushokugoMaster } from "@master/shushokugo";
 import { tokuteikizaiMaster } from "@master/tokuteikizai";
 import { relation } from "@misc/constants";
 import type { RecordType } from "@misc/types";
@@ -70,6 +71,14 @@ export const Property = (props: { record: RecordType }) => {
         return (
           <MasterViewer
             master={ikaMaster}
+            record={props.record}
+            key={props.record.data}
+          />
+        );
+      case "HS_5":
+        return (
+          <MasterViewer
+            master={shushokugoMaster}
             record={props.record}
             key={props.record.data}
           />
