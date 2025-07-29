@@ -1,4 +1,4 @@
-import type { RecordType } from "../types";
+import type { RecordType } from "@misc/types";
 
 const descriptions: (((record: RecordType) => string) | string)[] = [
   "この行が公費レコードであることを示します。公費を併用する場合は、優先度順で記録します",

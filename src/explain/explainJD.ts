@@ -1,6 +1,6 @@
-import { futanshaShubetsuCode, jushinKubunCode } from "../constants";
-import { findFromKV } from "../tools";
-import type { RecordType } from "../types";
+import { futanshaShubetsuCode, jushinKubunCode } from "@misc/constants";
+import { findFromKV } from "@misc/tools";
+import type { RecordType } from "@misc/types";
 
 const descriptions: (((record: RecordType) => string) | string)[] = [
   "この行が受診日等レコードであることを示します",

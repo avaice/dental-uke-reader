@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useResizable } from "../../hooks/useResizable";
-import type { RecordType } from "../../types";
+import type { RecordType } from "../../misc/types";
 import { Button } from "../_parts/Button";
 import { Property } from "../Property";
 

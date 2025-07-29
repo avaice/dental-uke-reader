@@ -1,5 +1,5 @@
-import type { KVType, RecordType } from "../../types";
-import { KVRenderer } from "../KVRenderer";
+import { KVRenderer } from "@components/KVRenderer";
+import type { KVType, RecordType } from "@misc/types";
 
 type Props = {
   record: RecordType;

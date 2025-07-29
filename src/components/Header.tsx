@@ -1,7 +1,7 @@
-import { recordType } from "../constants";
-import { explain } from "../explain";
-import { findFromKV } from "../tools";
-import type { RecordType } from "../types";
+import explain from "@explain/explainCO";
+import { recordType } from "@misc/constants";
+import { findFromKV } from "@misc/tools";
+import type { RecordType } from "@misc/types";
 import { Button } from "./_parts/Button";
 
 type Props = {

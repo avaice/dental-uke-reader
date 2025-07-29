@@ -1,9 +1,9 @@
+import { Button } from "@components/_parts/Button";
+import { KVRenderer } from "@components/KVRenderer";
+import { toothPartCode, toothStatusCode, toothTypeCode } from "@misc/constants";
+import { cn, findFromKV } from "@misc/tools";
+import type { KVType, RecordType } from "@misc/types";
 import { useMemo, useState } from "react";
-import { toothPartCode, toothStatusCode, toothTypeCode } from "../../constants";
-import { cn, findFromKV } from "../../tools";
-import type { KVType, RecordType } from "../../types";
-import { Button } from "../_parts/Button";
-import { KVRenderer } from "../KVRenderer";
 
 type Props = {
   record: RecordType;

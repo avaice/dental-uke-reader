@@ -1,6 +1,6 @@
-import { futanshaShubetsuCode, kakuninKubunCode } from "../constants";
-import { findFromKV } from "../tools";
-import type { RecordType } from "../types";
+import { futanshaShubetsuCode, kakuninKubunCode } from "@misc/constants";
+import { findFromKV } from "@misc/tools";
+import type { RecordType } from "@misc/types";
 
 const descriptions: (((record: RecordType) => string) | string)[] = [
   "この行が資格確認レコードであることを示します",

@@ -3,9 +3,9 @@ import {
   shisetsuKijunTodokedeCode,
   tensuhyo,
   todofukenCodes,
-} from "../constants";
-import { findFromKV } from "../tools";
-import type { RecordType } from "../types";
+} from "@misc/constants";
+import { findFromKV } from "@misc/tools";
+import type { RecordType } from "@misc/types";
 
 const descriptions: (((record: RecordType) => string) | string)[] = [
   "この行が医療機関情報レコードであることを示します",

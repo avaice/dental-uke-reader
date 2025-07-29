@@ -1,6 +1,6 @@
-import { genmenKubunCode, shokumuReasonCode } from "../constants";
-import { findFromKV } from "../tools";
-import type { RecordType } from "../types";
+import { genmenKubunCode, shokumuReasonCode } from "@misc/constants";
+import { findFromKV } from "@misc/tools";
+import type { RecordType } from "@misc/types";
 
 const descriptions: (((record: RecordType) => string) | string)[] = [
   "この行が保険者レコードであることを示します",

@@ -1,6 +1,6 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: <内容が不変なので、よい> */
 import React from "react";
-import type { RecordType } from "../../types";
+import type { RecordType } from "../../misc/types";
 
 export const UKERenderer = React.memo(
   ({

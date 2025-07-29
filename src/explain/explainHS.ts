@@ -4,9 +4,9 @@ import {
   toothPartCode,
   toothStatusCode,
   toothTypeCode,
-} from "../constants";
-import { findFromKV } from "../tools";
-import type { RecordType } from "../types";
+} from "@misc/constants";
+import { findFromKV } from "@misc/tools";
+import type { RecordType } from "@misc/types";
 
 const descriptions: (((record: RecordType) => string) | string)[] = [
   "この行が傷病名部位レコードであることを示します",

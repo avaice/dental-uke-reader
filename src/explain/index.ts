@@ -1,4 +1,4 @@
-import type { RecordType } from "../types";
+import type { RecordType } from "../misc/types";
 import explainCO from "./explainCO";
 import explainGO from "./explainGO";
 import explainHO from "./explainHO";

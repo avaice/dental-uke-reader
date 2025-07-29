@@ -1,4 +1,4 @@
-import type { KVType } from "../../types";
+import type { KVType } from "@misc/types";
 
 export const KVRenderer = (props: { data: KVType; highlight: string[] }) => {
   return (

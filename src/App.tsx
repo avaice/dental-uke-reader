@@ -1,10 +1,10 @@
+import { DropOverlay } from "@components/DropOverlay";
+import { Header } from "@components/Header";
+import { SidePanel } from "@components/SidePanel";
+import { UKERenderer } from "@components/UKERenderer";
+import { useUKE } from "@hooks/useUKE";
+import type { RecordType } from "@misc/types";
 import { useState } from "react";
-import { DropOverlay } from "./components/DropOverlay";
-import { Header } from "./components/Header";
-import { SidePanel } from "./components/SidePanel";
-import { UKERenderer } from "./components/UKERenderer";
-import { useUKE } from "./hooks/useUKE";
-import type { RecordType } from "./types";
 
 function App() {
   const {

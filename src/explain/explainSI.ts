@@ -1,6 +1,6 @@
-import { futanKubunCode, shinryoShikibetsuCode } from "../constants";
-import { findFromKV } from "../tools";
-import type { RecordType } from "../types";
+import { futanKubunCode, shinryoShikibetsuCode } from "@misc/constants";
+import { findFromKV } from "@misc/tools";
+import type { RecordType } from "@misc/types";
 
 const descriptions: (((record: RecordType) => string) | string)[] = [
   "この行が医科診療行為レコードであることを示します",

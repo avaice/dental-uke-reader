@@ -1,7 +1,7 @@
+import { KVRenderer } from "@components/KVRenderer";
+import { relation } from "@misc/constants";
+import type { RecordType } from "@misc/types";
 import { useMemo } from "react";
-import { relation } from "../../constants";
-import type { RecordType } from "../../types";
-import { KVRenderer } from "../KVRenderer";
 import CO_5_Property from "./CO_5_Property";
 import HS_3_Property from "./HS_3_Property";
 import IR_8_Property from "./IR_8_Property";
