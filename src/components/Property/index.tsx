@@ -1,5 +1,6 @@
 import { KVRenderer } from "@components/KVRenderer";
 import { MasterViewer } from "@components/MasterViewer";
+import { MessageWithEmoji } from "@components/MessageWithEmoji";
 import { commentMaster } from "@master/comment";
 import { ikaMaster } from "@master/ika";
 import { iyakuhinMaster } from "@master/iyakuhin";
@@ -89,6 +90,7 @@ export const Property = (props: { record: RecordType }) => {
         return <HS_3_Property record={props.record} rel={rel} />;
       case "CO_5":
         return <CO_5_Property record={props.record} rel={rel} />;
+
       default:
         if (rel !== undefined) {
           return (
@@ -97,7 +99,7 @@ export const Property = (props: { record: RecordType }) => {
             </div>
           );
         }
-        return null;
+        return <MessageWithEmoji message="詳細データはありません" emoji="😶" />;
     }
   }, [key, props.record, rel]);
 

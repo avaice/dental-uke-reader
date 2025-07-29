@@ -56,7 +56,7 @@ export const loadIyakuhinMaster = async (
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      callback(`Resolved 医薬品マスター ${i} / ${lines.length}`);
+      callback(`Loading 医薬品マスター ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("iyakuhinMasterVersion", VERSION);

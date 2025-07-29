@@ -58,7 +58,7 @@ export const loadTokuteikizaiMaster = async (
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      callback(`Resolved 特定器材マスター ${i} / ${lines.length}`);
+      callback(`Loading 特定器材マスター ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("tokuteikizaiMasterVersion", VERSION);

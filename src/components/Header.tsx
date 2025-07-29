@@ -1,11 +1,8 @@
 import { explain } from "@explain/index";
-import { loadMaster } from "@master/loadMaster";
 import { recordType } from "@misc/constants";
 import { findFromKV } from "@misc/tools";
 import type { RecordType } from "@misc/types";
-import { useState } from "react";
 import { Button } from "./_parts/Button";
-import { LoadingOverlay } from "./LoadingOverlay";
 
 type Props = {
   record: RecordType | null;
@@ -13,22 +10,12 @@ type Props = {
 };
 
 export const Header = (props: Props) => {
-  const [message, setMessage] = useState<string | null>(null);
   return (
     <header>
       <div className="flex justify-between gap-2">
         <h2 className="font-bold text-2xl">UKE Reader</h2>
         <div className="flex gap-2">
-          <Button onClick={props.loadUKE}>UKEを読み込む</Button>
-          <Button
-            onClick={async () => {
-              await loadMaster(setMessage);
-              setMessage(null);
-              alert("マスターを読み込みました");
-            }}
-          >
-            マスターを読み込む
-          </Button>
+          <Button onClick={props.loadUKE}>UKEを開く</Button>
         </div>
       </div>
       {props.record && (
@@ -45,7 +32,6 @@ export const Header = (props: Props) => {
           </div>
         </div>
       )}
-      {message && <LoadingOverlay message={message} />}
     </header>
   );
 };

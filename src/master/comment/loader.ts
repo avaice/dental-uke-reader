@@ -56,7 +56,7 @@ export const loadCommentMaster = async (
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      callback(`Resolved コメントマスター ${i} / ${lines.length}`);
+      callback(`Loading コメントマスター ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("commentMasterVersion", VERSION);

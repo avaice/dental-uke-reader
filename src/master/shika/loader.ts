@@ -54,7 +54,7 @@ export const loadShikaMaster = async (callback: (message: string) => void) => {
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      callback(`Resolved 歯科診療行為マスター ${i} / ${lines.length}`);
+      callback(`Loading 歯科診療行為マスター ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("shikaMasterVersion", VERSION);

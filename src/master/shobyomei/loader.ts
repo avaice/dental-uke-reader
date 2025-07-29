@@ -56,7 +56,7 @@ export const loadShobyomeiMaster = async (
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      callback(`Resolved 傷病名マスター ${i} / ${lines.length}`);
+      callback(`Loading 傷病名マスター ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("shobyomeiMasterVersion", VERSION);

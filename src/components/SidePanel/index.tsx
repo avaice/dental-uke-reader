@@ -33,7 +33,7 @@ export const SidePanel = (props: Props) => {
       {props.visible && resizeHandleComponent}
       <div
         className={cn(
-          "shrink-0 overflow-hidden rounded border transition-all",
+          "shrink-0 overflow-hidden rounded border transition-all duration-300",
           props.visible ? "fade-in" : "fade-out border-0",
         )}
         ref={ref}

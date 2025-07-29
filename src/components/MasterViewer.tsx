@@ -1,9 +1,12 @@
+import { loadMaster } from "@master/loadMaster";
 import { masterManageStore } from "@master/masterManageInstance";
 import { UKEAtom } from "@misc/atoms";
 import { cn } from "@misc/tools";
 import type { RecordType } from "@misc/types";
 import { useAtomValue } from "jotai";
 import { useEffect, useMemo, useState } from "react";
+import { Button } from "./_parts/Button";
+import { LoadingOverlay } from "./LoadingOverlay";
 import { MessageWithEmoji } from "./MessageWithEmoji";
 
 type Props = {
@@ -35,6 +38,7 @@ const getDate = (UKE: string[][], record: RecordType) => {
 
 export const MasterViewer = (props: Props) => {
   const UKE = useAtomValue(UKEAtom);
+  const [message, setMessage] = useState<string | null>(null);
   const { store, header } = props.master;
   const [result, setResult] = useState<Record<string, string>[][]>([[]]);
   const [status, setStatus] = useState<
@@ -90,14 +94,16 @@ export const MasterViewer = (props: Props) => {
   }, [props.record.identification, props.record, result, status, UKE]);
 
   useEffect(() => {
-    masterManageStore.getItem(`${props.master.name}Version`).then((value) => {
-      if (value === null) {
-        setStatus("masterNotFound");
-      } else {
-        setStatus("masterFound");
-      }
-    });
-  }, [props.master.name]);
+    if (status === "checkingMaster") {
+      masterManageStore.getItem(`${props.master.name}Version`).then((value) => {
+        if (value === null) {
+          setStatus("masterNotFound");
+        } else {
+          setStatus("masterFound");
+        }
+      });
+    }
+  }, [props.master.name, status]);
 
   useEffect(() => {
     if (status === "masterFound") {
@@ -119,11 +125,23 @@ export const MasterViewer = (props: Props) => {
 
   if (status === "masterNotFound") {
     return (
-      <MessageWithEmoji
-        message="マスターを読み込んでください"
-        emoji="🫥"
-        className="text-center"
-      />
+      <div className="flex flex-col gap-4">
+        <MessageWithEmoji
+          message="マスターを読み込んでください"
+          emoji="🫥"
+          className="text-center"
+        />
+        <Button
+          onClick={async () => {
+            await loadMaster(setMessage);
+            setMessage(null);
+            setStatus("checkingMaster");
+          }}
+        >
+          マスターを読み込む
+        </Button>
+        {message && <LoadingOverlay message={message} />}
+      </div>
     );
   }
 

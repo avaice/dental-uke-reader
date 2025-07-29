@@ -24,6 +24,7 @@ export const useResizable = (props: {
           const ref = props.ref?.current;
           if (!ref) return;
           e.preventDefault();
+          ref.style.transition = "none";
           const startX = e.clientX;
           const startPx = ref.getBoundingClientRect().width;
           const handleMouseMove = (e: MouseEvent) => {
@@ -31,6 +32,7 @@ export const useResizable = (props: {
             ref.style.width = `${startPx + movementX}px`;
           };
           const handleMouseUp = () => {
+            ref.style.transition = "all 0.3s ease-in-out";
             localStorage.setItem("resizableWidth", ref.style.width);
             document.removeEventListener("mousemove", handleMouseMove);
             document.removeEventListener("mouseup", handleMouseUp);

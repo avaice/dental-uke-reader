@@ -3,6 +3,7 @@ import { Header } from "@components/Header";
 import { SidePanel } from "@components/SidePanel";
 import { UKERenderer } from "@components/UKERenderer";
 import { useUKE } from "@hooks/useUKE";
+import { useMediaQuery } from "@misc/tools";
 import type { RecordType } from "@misc/types";
 import { useState } from "react";
 
@@ -17,6 +18,8 @@ function App() {
   } = useUKE();
   const [record, setRecord] = useState<RecordType | null>(null);
   const [isLocking, setIsLocking] = useState<string | null>(null);
+
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
     <div
@@ -44,11 +47,13 @@ function App() {
             />
           )}
         </div>
-        <SidePanel
-          record={record}
-          onClose={() => setIsLocking(null)}
-          visible={!!isLocking}
-        />
+        {!isMobile && (
+          <SidePanel
+            record={record}
+            onClose={() => setIsLocking(null)}
+            visible={!!isLocking}
+          />
+        )}
       </div>
     </div>
   );
