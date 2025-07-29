@@ -40,6 +40,26 @@ export const useResizable = (props: {
           document.addEventListener("mousemove", handleMouseMove);
           document.addEventListener("mouseup", handleMouseUp);
         }}
+        onTouchStart={(e) => {
+          const ref = props.ref?.current;
+          if (!ref) return;
+          e.preventDefault();
+          ref.style.transition = "none";
+          const startX = e.touches[0].clientX;
+          const startPx = ref.getBoundingClientRect().width;
+          const handleTouchMove = (e: TouchEvent) => {
+            const movementX = startX - e.touches[0].clientX;
+            ref.style.width = `${startPx + movementX}px`;
+          };
+          const handleTouchEnd = () => {
+            ref.style.transition = "all 0.3s ease-in-out";
+            localStorage.setItem("resizableWidth", ref.style.width);
+            document.removeEventListener("touchmove", handleTouchMove);
+            document.removeEventListener("touchend", handleTouchEnd);
+          };
+          document.addEventListener("touchmove", handleTouchMove);
+          document.addEventListener("touchend", handleTouchEnd);
+        }}
       />
     );
   }, [props.ref]);
