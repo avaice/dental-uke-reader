@@ -15,6 +15,7 @@ export const loadTokuteikizaiMaster = async (
   }
 
   console.time("特定器材マスターの読み込み");
+  callback("Downloading 特定機材マスター...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");

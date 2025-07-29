@@ -13,6 +13,7 @@ export const loadIkaMaster = async (callback: (message: string) => void) => {
   }
 
   console.time("医科診療行為マスターの読み込み");
+  callback("Downloading 医科診療行為マスター...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");

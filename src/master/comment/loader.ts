@@ -15,6 +15,7 @@ export const loadCommentMaster = async (
   }
 
   console.time("コメントマスターの読み込み");
+  callback("Downloading コメントマスター...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");

@@ -10,12 +10,12 @@ import { tokuteikizaiMaster } from "@master/tokuteikizai";
 import { relation } from "@misc/constants";
 import type { RecordType } from "@misc/types";
 import { useMemo } from "react";
-import CO_5_Property from "./CO_5_Property";
-import HS_3_Property from "./HS_3_Property";
-import IR_8_Property from "./IR_8_Property";
-import RE_11_Property from "./RE_11_Property";
-import RE_13_Property from "./RE_13_Property";
-import UK_8_Property from "./UK_8_Property";
+import CO_5_Property from "./CustomProperty/CO_5_Property";
+import HS_3_Property from "./CustomProperty/HS_3_Property";
+import IR_8_Property from "./CustomProperty/IR_8_Property";
+import RE_11_Property from "./CustomProperty/RE_11_Property";
+import RE_13_Property from "./CustomProperty/RE_13_Property";
+import UK_8_Property from "./CustomProperty/UK_8_Property";
 
 export const Property = (props: { record: RecordType }) => {
   const key = `${props.record.identification}_${props.record.index}` as const;

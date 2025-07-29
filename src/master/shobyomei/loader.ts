@@ -15,6 +15,7 @@ export const loadShobyomeiMaster = async (
   }
 
   console.time("傷病名マスターの読み込み");
+  callback("Downloading 傷病名マスター...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");

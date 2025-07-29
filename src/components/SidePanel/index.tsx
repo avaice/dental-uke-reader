@@ -21,7 +21,7 @@ export const SidePanel = (props: Props) => {
     if (ref.current) {
       if (props.visible) {
         ref.current.style.width =
-          localStorage.getItem("resizableWidth") ?? "300px";
+          localStorage.getItem("resizableWidth") ?? "400px";
       } else {
         ref.current.style.width = "0px";
       }

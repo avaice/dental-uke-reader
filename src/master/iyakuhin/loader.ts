@@ -15,6 +15,7 @@ export const loadIyakuhinMaster = async (
   }
 
   console.time("医薬品マスターの読み込み");
+  callback("Downloading 医薬品マスター...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");

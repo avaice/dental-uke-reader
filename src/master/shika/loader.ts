@@ -13,6 +13,7 @@ export const loadShikaMaster = async (callback: (message: string) => void) => {
   }
 
   console.time("歯科診療行為マスターの読み込み");
+  callback("Downloading 歯科診療行為マスター...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");
