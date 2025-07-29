@@ -23,7 +23,7 @@ function App() {
 
   return (
     <div
-      className={`min-h-screen p-4 transition-colors ${
+      className={`min-svh p-4 transition-colors ${
         isDragOver ? "border-2 border-blue-400 border-dashed bg-blue-50" : ""
       }`}
       onDragOver={handleDragOver}

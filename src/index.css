@@ -25,3 +25,7 @@
     opacity: 0;
   }
 }
+
+html {
+  overscroll-behavior: none;
+}
