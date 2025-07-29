@@ -5,7 +5,7 @@ import { UKERenderer } from "@components/UKERenderer";
 import { useUKE } from "@hooks/useUKE";
 import { useMediaQuery } from "@misc/tools";
 import type { RecordType } from "@misc/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const {
@@ -20,6 +20,19 @@ function App() {
   const [isLocking, setIsLocking] = useState<string | null>(null);
 
   const isMobile = useMediaQuery("(max-width: 768px)");
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsLocking(null);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <div
