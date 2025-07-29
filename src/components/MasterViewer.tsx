@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 
 type Props = {
   master: {
+    name: string;
     header: readonly { name: string; value: string }[];
     store: LocalForage;
   };
@@ -87,14 +88,14 @@ export const MasterViewer = (props: Props) => {
   }, [props.record.identification, props.record, result, status, UKE]);
 
   useEffect(() => {
-    masterManageStore.getItem("shobyomeiMasterVersion").then((value) => {
+    masterManageStore.getItem(`${props.master.name}Version`).then((value) => {
       if (value === null) {
         setStatus("masterNotFound");
       } else {
         setStatus("masterFound");
       }
     });
-  }, []);
+  }, [props.master.name]);
 
   useEffect(() => {
     if (status === "masterFound") {
@@ -111,7 +112,7 @@ export const MasterViewer = (props: Props) => {
   }, [store, props.record.data, status]);
 
   if (status === "masterNotFound") {
-    return <div>Master not found</div>;
+    return <div>マスターを読み込んでください</div>;
   }
 
   if (status === "loadingMaster") {
