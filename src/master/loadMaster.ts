@@ -2,6 +2,7 @@ import { loadChozaiMaster } from "./chozai/loader";
 import { loadCommentMaster } from "./comment/loader";
 import { loadIkaMaster } from "./ika/loader";
 import { loadIyakuhinMaster } from "./iyakuhin/loader";
+import { masterManageStore } from "./masterManageInstance";
 import { loadShikaMaster } from "./shika/loader";
 import { loadShikaKihonChuMaster } from "./shikaKihonChu/loader";
 import { loadShikaKihonKihonMaster } from "./shikaKihonKihon/loader";
@@ -10,6 +11,12 @@ import { loadShikaKihonZairyoMaster } from "./shikaKihonZairyo/loader";
 import { loadShobyomeiMaster } from "./shobyomei/loader";
 import { loadShushokugoMaster } from "./shushokugo/loader";
 import { loadTokuteikizaiMaster } from "./tokuteikizai/loader";
+
+export const reloadMaster = async (callback: (message: string) => void) => {
+  // IndexedDBをリセットする
+  masterManageStore.clear();
+  await loadMaster(callback);
+};
 
 export const loadMaster = async (callback: (message: string) => void) => {
   await loadShobyomeiMaster(callback);

@@ -6,3 +6,5 @@ export type RecordType = {
 };
 
 export type KVType = { key: string; value: string }[];
+
+export type SidePanelType = "property" | "tools" | null;
