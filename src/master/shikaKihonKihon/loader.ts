@@ -49,19 +49,17 @@ export const loadShikaKihonKihonMaster = async (
       }
       p++;
     }
-    if (record.歯科診療行為コード) {
+    if (record.加算コード) {
       const exists = await shikaKihonKihonMasterStore.getItem(
-        record.歯科診療行為コード,
+        record.加算コード,
       );
       if (exists) {
-        await shikaKihonKihonMasterStore.setItem(record.歯科診療行為コード, [
+        await shikaKihonKihonMasterStore.setItem(record.加算コード, [
           ...(exists as Record<string, string>[]),
           record,
         ]);
       } else {
-        await shikaKihonKihonMasterStore.setItem(record.歯科診療行為コード, [
-          record,
-        ]);
+        await shikaKihonKihonMasterStore.setItem(record.加算コード, [record]);
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
