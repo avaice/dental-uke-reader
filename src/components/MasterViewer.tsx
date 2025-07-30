@@ -191,7 +191,9 @@ export const MasterViewer = (props: Props) => {
                     <span className="w-full">{item.value}</span>
                   </summary>
                   <div className="mt-1.5 rounded bg-yellow-100 p-2 text-xs">
-                    {header.find((h) => h.name === item.key)?.value}
+                    <p className="whitespace-pre-wrap">
+                      {header.find((h) => h.name === item.key)?.value}
+                    </p>
                   </div>
                 </details>
               </li>
