@@ -2,7 +2,7 @@ import { Button } from "@components/_parts/Button";
 import { LoadingOverlay } from "@components/LoadingOverlay";
 import { reloadMaster } from "@master/loadMaster";
 import type { SearchResult } from "@master/searchMaster";
-import { debounce, searchMaster } from "@master/searchMaster";
+import { searchMaster } from "@master/searchMaster";
 import { cn } from "@misc/tools";
 import { useCallback, useMemo, useState } from "react";
 
@@ -29,11 +29,6 @@ export const Tools = () => {
       setIsSearching(false);
     }
   }, []);
-
-  const debouncedSearch = useMemo(
-    () => debounce(performSearch, 300),
-    [performSearch],
-  );
 
   const handleSearch = useCallback(() => {
     performSearch(keyword);
