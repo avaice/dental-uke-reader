@@ -27,7 +27,7 @@ export interface SearchResult {
   matchType: "exact" | "partial";
 }
 
-const masterStores: MasterStore[] = [
+export const masterStores: MasterStore[] = [
   { name: "shobyomei", store: shobyomeiMasterStore, displayName: "傷病名" },
   { name: "iyakuhin", store: iyakuhinMasterStore, displayName: "医薬品" },
   { name: "shika", store: shikaMasterStore, displayName: "歯科" },
@@ -64,27 +64,33 @@ const masterStores: MasterStore[] = [
 
 const calculateScore = (
   data: MasterData,
-  keyword: string,
+  keywords: string[],
   isExactMatch: boolean,
 ): number => {
   if (isExactMatch) return 100;
 
   let score = 0;
-  const lowerKeyword = keyword.toLowerCase();
 
   for (const record of data) {
     for (const [key, value] of Object.entries(record)) {
       const lowerValue = value.toLowerCase();
-      if (lowerValue === lowerKeyword) {
-        score += 50;
-      } else if (lowerValue.startsWith(lowerKeyword)) {
-        score += 30;
-      } else if (lowerValue.includes(lowerKeyword)) {
-        score += 10;
-      }
+      const lowerKey = key.toLowerCase();
 
-      if (key.toLowerCase().includes(lowerKeyword)) {
-        score += 5;
+      // 各キーワードに対してスコアを計算
+      for (const keyword of keywords) {
+        const lowerKeyword = keyword.toLowerCase();
+
+        if (lowerValue === lowerKeyword) {
+          score += 50;
+        } else if (lowerValue.startsWith(lowerKeyword)) {
+          score += 30;
+        } else if (lowerValue.includes(lowerKeyword)) {
+          score += 10;
+        }
+
+        if (lowerKey.includes(lowerKeyword)) {
+          score += 5;
+        }
       }
     }
   }
@@ -94,50 +100,59 @@ const calculateScore = (
 
 const searchInMaster = async (
   masterStore: MasterStore,
-  keyword: string,
+  keywords: string[],
 ): Promise<SearchResult[]> => {
   const results: SearchResult[] = [];
 
-  // 完全一致検索
-  const exactMatch = (await masterStore.store.getItem(
-    keyword,
-  )) as MasterData | null;
-  if (exactMatch) {
-    results.push({
-      masterName: masterStore.name,
-      displayName: masterStore.displayName,
-      data: exactMatch,
-      score: 100,
-      matchType: "exact",
-    });
+  // 単一キーワードの場合は完全一致検索も行う
+  if (keywords.length === 1) {
+    const keyword = keywords[0];
+    const exactMatch = (await masterStore.store.getItem(
+      keyword,
+    )) as MasterData | null;
+    if (exactMatch) {
+      results.push({
+        masterName: masterStore.name,
+        displayName: masterStore.displayName,
+        data: exactMatch,
+        score: 100,
+        matchType: "exact",
+      });
+    }
   }
 
-  // 部分一致検索
+  // 部分一致検索（AND検索対応）
   const partialMatches: MasterData = [];
   const matchedKeys = new Set<string>();
-  const lowerKeyword = keyword.toLowerCase();
 
   await masterStore.store.iterate((value, key) => {
     const dataValue = value as MasterData;
     const lowerKey = key.toLowerCase();
 
-    // キーワードが含まれるかチェック
-    if (lowerKey.includes(lowerKeyword) && key !== keyword) {
+    // キー名に全てのキーワードが含まれるかチェック
+    const keyMatchesAll = keywords.every((keyword) =>
+      lowerKey.includes(keyword.toLowerCase()),
+    );
+
+    if (keyMatchesAll && (keywords.length > 1 || key !== keywords[0])) {
       partialMatches.push(...dataValue);
       matchedKeys.add(key);
       return;
     }
 
-    // 値の中にキーワードが含まれるかチェック
+    // レコードの値に全てのキーワードが含まれるかチェック
     for (const record of dataValue) {
-      for (const fieldValue of Object.values(record)) {
-        if (fieldValue.toLowerCase().includes(lowerKeyword)) {
-          // 重複を避けるため、すでに追加済みのキーからのレコードは追加しない
-          if (!matchedKeys.has(key)) {
-            partialMatches.push(record);
-          }
-          break;
+      const recordText = Object.values(record).join(" ").toLowerCase();
+      const matchesAllKeywords = keywords.every((keyword) =>
+        recordText.includes(keyword.toLowerCase()),
+      );
+
+      if (matchesAllKeywords) {
+        // 重複を避けるため、すでに追加済みのキーからのレコードは追加しない
+        if (!matchedKeys.has(key)) {
+          partialMatches.push(record);
         }
+        break;
       }
     }
   });
@@ -147,7 +162,7 @@ const searchInMaster = async (
       masterName: masterStore.name,
       displayName: masterStore.displayName,
       data: partialMatches,
-      score: calculateScore(partialMatches, keyword, false),
+      score: calculateScore(partialMatches, keywords, false),
       matchType: "partial",
     });
   }
@@ -162,9 +177,19 @@ export const searchMaster = async (
     return [];
   }
 
+  // スペース区切りでキーワードを分割し、空文字列を除去
+  const keywords = keyword
+    .trim()
+    .split(/\s+/)
+    .filter((k) => k.length > 0);
+
+  if (keywords.length === 0) {
+    return [];
+  }
+
   // 並列検索
   const searchPromises = masterStores.map((store) =>
-    searchInMaster(store, keyword),
+    searchInMaster(store, keywords),
   );
   const allResults = await Promise.all(searchPromises);
 
@@ -189,12 +214,27 @@ export const debounce = <T extends (...params: never[]) => void>(
 
 // 検索結果のハイライト用ヘルパー関数
 export const highlightKeyword = (text: string, keyword: string): string => {
-  if (!keyword) return text;
+  if (!keyword || keyword.trim() === "") return text;
 
-  // 正規表現の特殊文字をエスケープ
-  const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const regex = new RegExp(`(${escapedKeyword})`, "gi");
-  return text.replace(regex, '<mark class="bg-yellow-300">$1</mark>');
+  // スペース区切りでキーワードを分割
+  const keywords = keyword
+    .trim()
+    .split(/\s+/)
+    .filter((k) => k.length > 0);
+
+  if (keywords.length === 0) return text;
+
+  let result = text;
+
+  // 各キーワードに対してハイライト処理
+  for (const kw of keywords) {
+    // 正規表現の特殊文字をエスケープ
+    const escapedKeyword = kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(`(${escapedKeyword})`, "gi");
+    result = result.replace(regex, '<mark class="bg-yellow-300">$1</mark>');
+  }
+
+  return result;
 };
 
 // 検索フィルター用オプション
@@ -215,7 +255,7 @@ export const searchMasterWithFilter = async (
     // マスタータイプでフィルター
     if (options.masterTypes && options.masterTypes.length > 0) {
       results = results.filter((r) =>
-        options.masterTypes!.includes(r.masterName),
+        options.masterTypes?.includes(r.masterName),
       );
     }
 

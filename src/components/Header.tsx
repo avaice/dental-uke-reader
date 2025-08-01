@@ -17,7 +17,7 @@ export const Header = (props: Props) => {
         <h2 className="font-bold text-2xl">UKE Reader</h2>
         <div className="flex gap-2">
           <Button onClick={props.loadUKE}>UKEを開く</Button>
-          <Button onClick={props.onOpenToolsPanel}>Tools</Button>
+          <Button onClick={props.onOpenToolsPanel}>Search</Button>
         </div>
       </div>
       {props.record && (

@@ -12,6 +12,15 @@ import { loadShobyomeiMaster } from "./shobyomei/loader";
 import { loadShushokugoMaster } from "./shushokugo/loader";
 import { loadTokuteikizaiMaster } from "./tokuteikizai/loader";
 
+export const getMasterStatus = async () => {
+  const keys = await masterManageStore.keys();
+  const status: Record<string, string | null> = {};
+  for (const key of keys) {
+    status[key] = await masterManageStore.getItem(key);
+  }
+  return status;
+};
+
 export const reloadMaster = async (callback: (message: string) => void) => {
   // IndexedDBをリセットする
   masterManageStore.clear();

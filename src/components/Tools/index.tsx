@@ -1,16 +1,27 @@
 import { Button } from "@components/_parts/Button";
 import { LoadingOverlay } from "@components/LoadingOverlay";
-import { reloadMaster } from "@master/loadMaster";
+import { getMasterStatus, reloadMaster } from "@master/loadMaster";
 import type { SearchResult } from "@master/searchMaster";
-import { searchMaster } from "@master/searchMaster";
+import { masterStores, searchMaster } from "@master/searchMaster";
 import { cn } from "@misc/tools";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 
 export const Tools = () => {
   const [message, setMessage] = useState<string | null>(null);
   const [keyword, setKeyword] = useState<string>("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [masterStatus, setMasterStatus] = useState<
+    Record<string, string | null>
+  >({});
+
+  useEffect(() => {
+    getMasterStatus().then((status) => {
+      setMasterStatus(status);
+    });
+  }, []);
 
   const performSearch = useCallback(async (searchKeyword: string) => {
     if (!searchKeyword.trim()) {
@@ -31,39 +42,77 @@ export const Tools = () => {
   }, []);
 
   const handleSearch = useCallback(() => {
+    const input = inputRef.current;
+    if (input) {
+      flushSync(() => setKeyword(input.value));
+    }
     performSearch(keyword);
   }, [keyword, performSearch]);
 
   const renderFieldValue = useCallback(
     (value: string) => {
-      if (!keyword) return value;
+      if (!keyword || keyword.trim() === "") return value;
 
-      // ハイライト処理をReactで安全に実装
+      // スペース区切りでキーワードを分割
+      const keywords = keyword
+        .trim()
+        .split(/\s+/)
+        .filter((k) => k.length > 0);
+
+      if (keywords.length === 0) return value;
+
+      // 複数キーワードのハイライト処理
+      const matches: { start: number; end: number; keyword: string }[] = [];
+
+      // 各キーワードのマッチ位置を収集
+      for (const kw of keywords) {
+        const lowerValue = value.toLowerCase();
+        const lowerKeyword = kw.toLowerCase();
+        let searchIndex = 0;
+
+        while (searchIndex < lowerValue.length) {
+          const index = lowerValue.indexOf(lowerKeyword, searchIndex);
+          if (index === -1) break;
+
+          matches.push({
+            start: index,
+            end: index + kw.length,
+            keyword: kw,
+          });
+
+          searchIndex = index + 1;
+        }
+      }
+
+      if (matches.length === 0) return value;
+
+      // 重複しないようにマッチをソート・マージ
+      matches.sort((a, b) => a.start - b.start);
+
       const parts = [];
-      const lowerValue = value.toLowerCase();
-      const lowerKeyword = keyword.toLowerCase();
       let lastIndex = 0;
-      let index = lowerValue.indexOf(lowerKeyword);
 
-      while (index !== -1) {
+      for (const match of matches) {
+        // 重複チェック
+        if (match.start < lastIndex) continue;
+
         // マッチ前の部分
-        if (index > lastIndex) {
+        if (match.start > lastIndex) {
           parts.push(
             <span key={`${lastIndex}-text`}>
-              {value.substring(lastIndex, index)}
+              {value.substring(lastIndex, match.start)}
             </span>,
           );
         }
 
         // マッチ部分をハイライト
         parts.push(
-          <mark key={`${index}-mark`} className="bg-yellow-300">
-            {value.substring(index, index + keyword.length)}
+          <mark key={`${match.start}-mark`} className="bg-yellow-300">
+            {value.substring(match.start, match.end)}
           </mark>,
         );
 
-        lastIndex = index + keyword.length;
-        index = lowerValue.indexOf(lowerKeyword, lastIndex);
+        lastIndex = match.end;
       }
 
       // 最後の部分
@@ -89,16 +138,13 @@ export const Tools = () => {
       <div className="relative h-full overflow-y-scroll px-4 pb-4">
         <div className="space-y-4">
           <div className="sticky top-0 z-10 bg-white py-4">
-            <h3 className="mb-2 font-bold text-lg">マスター検索</h3>
+            {/* <h3 className="mb-2 font-bold text-lg">マスター検索</h3> */}
             <div className="flex gap-2">
               <input
                 type="text"
                 className="w-full rounded border p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="検索キーワードを入力..."
-                value={keyword}
-                onChange={(e) => {
-                  setKeyword(e.target.value);
-                }}
+                placeholder="検索キーワードを入力（スペース区切りでAND検索）..."
+                ref={inputRef}
                 onKeyDown={(e) => {
                   if (e.keyCode === 13) {
                     handleSearch();
@@ -109,7 +155,7 @@ export const Tools = () => {
                 onClick={handleSearch}
                 disabled={isSearching}
                 className={cn(
-                  "shrink-0",
+                  "w-[80px] shrink-0",
                   isSearching && "cursor-not-allowed opacity-50",
                 )}
               >
@@ -137,7 +183,7 @@ export const Tools = () => {
               : searchResults.map((result, index) => (
                   <div
                     key={`${result.masterName}-${index}`}
-                    className="rounded-lg border p-4 transition-shadow hover:shadow-md"
+                    className="rounded-lg border p-4"
                   >
                     <div className="mb-3 flex items-center justify-between">
                       <h4 className="font-bold text-blue-600 text-lg">
@@ -187,10 +233,31 @@ export const Tools = () => {
           </div>
 
           <div className="mt-8 pt-4">
+            <h3 className="mb-2 font-bold text-lg">マスター読み込み状況</h3>
+            <ul className="mb-4">
+              {masterStores.map((store) => {
+                const key = `${store.name}MasterVersion`;
+                const value = masterStatus[key];
+                return (
+                  <li key={key} className="flex">
+                    <span className="w-[200px] shrink-0">
+                      {store.displayName}:
+                    </span>
+                    {value ? (
+                      value
+                    ) : (
+                      <span className="text-gray-500">Not Loaded</span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
             <Button
               className="w-full"
               onClick={async () => {
                 await reloadMaster(setMessage);
+                const status = await getMasterStatus();
+                setMasterStatus(status);
                 setMessage(null);
               }}
             >

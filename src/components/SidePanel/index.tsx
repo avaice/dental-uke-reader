@@ -35,7 +35,7 @@ export const SidePanel = (props: Props) => {
       case "property":
         return "Property";
       case "tools":
-        return "Tools";
+        return "Search";
       default:
         return "";
     }
