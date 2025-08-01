@@ -487,40 +487,50 @@ export const byotaiIkouCode = [
   { key: "2", value: "病態移行後" },
 ];
 
-export const shinryoShikibetsuCode = [
+export const nyuinShinryoShikibetsuCode = [
   { key: "01", value: "全体に係る識別コード" },
   { key: "11", value: "初診" },
-  { key: "12", value: "再診" },
-  { key: "13", value: "管理・リハ" },
+  { key: "13", value: "管理" },
   { key: "14", value: "在宅" },
-  { key: "21", value: "投薬（内服）" },
-  { key: "22", value: "投薬（屯服）" },
-  { key: "23", value: "投薬（外用）" },
-  { key: "24", value: "調剤" },
-  { key: "26", value: "麻毒" },
-  { key: "27", value: "調基" },
-  { key: "31", value: "注射（皮下筋肉内）" },
-  { key: "32", value: "注射（静脈内）" },
-  { key: "33", value: "注射（その他）" },
+  { key: "21", value: "投薬・内服" },
+  { key: "22", value: "投薬・屯服" },
+  { key: "23", value: "投薬・外用" },
+  { key: "24", value: "投薬・調剤" },
+  { key: "26", value: "投薬・麻毒" },
+  { key: "27", value: "投薬・調基" },
+  { key: "31", value: "注射・皮下筋肉内" },
+  { key: "32", value: "注射・静脈内" },
+  { key: "33", value: "注射・その他" },
   { key: "39", value: "薬剤料減点" },
   { key: "40", value: "処置" },
-  { key: "41", value: "処置・手術１" },
-  { key: "42", value: "処置・手術２" },
-  { key: "43", value: "処置・手術３" },
-  { key: "44", value: "処置・手術（その他）" },
   { key: "50", value: "手術" },
   { key: "54", value: "麻酔" },
   { key: "60", value: "検査・病理" },
-  { key: "61", value: "歯冠修復・欠損補綴（修復・補綴１）" },
-  { key: "62", value: "歯冠修復・欠損補綴（修復・補綴２）" },
-  { key: "63", value: "歯冠修復・欠損補綴（修復・補綴３）" },
-  { key: "64", value: "歯冠修復・欠損補綴（その他）" },
   { key: "70", value: "画像診断" },
   { key: "80", value: "その他" },
   { key: "90", value: "入院基本料" },
   { key: "92", value: "特定入院料・その他" },
   { key: "97", value: "食事療養・生活療養・標準負担額" },
   { key: "99", value: "全体に係る識別コード" },
+];
+
+export const nyuingaiShinryoShikibetsuCode = [
+  { key: "11", value: "初診" },
+  { key: "12", value: "再診" },
+  { key: "13", value: "管理・リハ" },
+  { key: "21", value: "投薬・注射" },
+  { key: "31", value: "X線検査" },
+  { key: "41", value: "処置・手術１" },
+  { key: "42", value: "処置・手術２" },
+  { key: "43", value: "処置・手術３" },
+  { key: "44", value: "処置・手術（その他）" },
+  { key: "54", value: "麻酔" },
+  { key: "61", value: "歯冠修復・欠損補綴（修復・補綴１）" },
+  { key: "62", value: "歯冠修復・欠損補綴（修復・補綴２）" },
+  { key: "63", value: "歯冠修復・欠損補綴（修復・補綴３）" },
+  { key: "64", value: "歯冠修復・欠損補綴（その他）" },
+  { key: "80", value: "全体のその他" },
+  { key: "99", value: "摘要" },
 ];
 
 export const futanKubunCode = [
@@ -774,26 +784,26 @@ export const relation = {
   HS_8: byotaiIkouCode,
 
   // SS (歯科診療行為)
-  SS_1: shinryoShikibetsuCode,
+  SS_1: nyuingaiShinryoShikibetsuCode,
   SS_2: futanKubunCode,
 
   // SI (医科診療行為)
-  SI_1: shinryoShikibetsuCode,
+  SI_1: nyuingaiShinryoShikibetsuCode,
   SI_2: futanKubunCode,
 
   // IY (医薬品)
-  IY_1: shinryoShikibetsuCode,
+  IY_1: nyuingaiShinryoShikibetsuCode,
   IY_2: futanKubunCode,
   IY_7: iyakuhinKubunCode,
 
   // TO (特定器材)
-  TO_1: shinryoShikibetsuCode,
+  TO_1: nyuingaiShinryoShikibetsuCode,
   TO_2: futanKubunCode,
   TO_7: tokuteiKizaiKasanCode,
   TO_9: tokuteiKizaiKasanCode,
 
   // CO (コメント)
-  CO_1: shinryoShikibetsuCode,
+  CO_1: nyuingaiShinryoShikibetsuCode,
   CO_2: futanKubunCode,
   CO_5: toothTypeCode,
   CO_5_status: toothStatusCode,

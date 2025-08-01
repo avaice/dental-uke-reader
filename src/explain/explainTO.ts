@@ -1,6 +1,6 @@
 import {
   futanKubunCode,
-  shinryoShikibetsuCode,
+  nyuingaiShinryoShikibetsuCode,
   tokuteiKizaiKasanCode,
 } from "@misc/constants";
 import { findFromKV } from "@misc/tools";
@@ -9,9 +9,9 @@ import type { RecordType } from "@misc/types";
 const descriptions: (((record: RecordType) => string) | string)[] = [
   "この行が特定器材レコードであることを示します",
   (record) =>
-    `診療識別を示します。${
+    `診療識別を示します。次に続く値では一律で入院外レセプトの場合の結果を表示するので、そうでない場合は手引を参照してください。${
       record.data !== ""
-        ? `値「${record.data}」は「${findFromKV(shinryoShikibetsuCode, record.data)}」です`
+        ? `値「${record.data}」は「${findFromKV(nyuingaiShinryoShikibetsuCode, record.data)}」です`
         : ""
     }`,
   (record) =>
