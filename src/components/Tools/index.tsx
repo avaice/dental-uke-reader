@@ -5,7 +5,6 @@ import type { SearchResult } from "@master/searchMaster";
 import { masterStores, searchMaster } from "@master/searchMaster";
 import { cn } from "@misc/tools";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { flushSync } from "react-dom";
 
 export const Tools = () => {
   const [message, setMessage] = useState<string | null>(null);
@@ -44,10 +43,10 @@ export const Tools = () => {
   const handleSearch = useCallback(() => {
     const input = inputRef.current;
     if (input) {
-      flushSync(() => setKeyword(input.value));
+      setKeyword(input.value);
+      performSearch(input.value);
     }
-    performSearch(keyword);
-  }, [keyword, performSearch]);
+  }, [performSearch]);
 
   const renderFieldValue = useCallback(
     (value: string) => {
