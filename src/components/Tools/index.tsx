@@ -5,6 +5,7 @@ import type { SearchResult } from "@master/searchMaster";
 import { masterStores, searchMaster } from "@master/searchMaster";
 import { cn } from "@misc/tools";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { SearchResultRecord } from "./SearchResultRecord";
 
 export const Tools = () => {
   const [message, setMessage] = useState<string | null>(null);
@@ -179,56 +180,16 @@ export const Tools = () => {
 
             {totalResults > 300
               ? []
-              : searchResults.map((result, index) => (
-                  <div
-                    key={`${result.masterName}-${index}`}
-                    className="rounded-lg border p-4"
-                  >
-                    <div className="mb-3 flex items-center justify-between">
-                      <h4 className="font-bold text-blue-600 text-lg">
-                        {result.displayName}
-                      </h4>
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={`rounded px-2 py-1 text-xs ${
-                            result.matchType === "exact"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-blue-100 text-blue-800"
-                          }`}
-                        >
-                          {result.matchType === "exact"
-                            ? "完全一致"
-                            : "部分一致"}
-                        </span>
-                        <span className="text-gray-500 text-xs">
-                          スコア: {result.score}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="max-h-96 space-y-2 overflow-y-auto">
-                      {result.data.map((record, recordIndex) => (
-                        <div
-                          key={`${result.masterName}-record-${recordIndex}`}
-                          className="rounded bg-gray-50 p-3 transition-colors hover:bg-gray-100"
-                        >
-                          <dl className="grid grid-cols-1 gap-1">
-                            {Object.entries(record).map(([key, value]) => (
-                              <div key={key} className="flex">
-                                <dt className="min-w-[120px] font-medium text-gray-700">
-                                  {key}:
-                                </dt>
-                                <dd className="ml-2 break-all text-gray-900">
-                                  {renderFieldValue(value)}
-                                </dd>
-                              </div>
-                            ))}
-                          </dl>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+              : searchResults.map((result) =>
+                  result.data.map((record, recordIndex) => (
+                    <SearchResultRecord
+                      key={`${result.masterName}-record-${recordIndex}`}
+                      result={result}
+                      record={record}
+                      renderFieldValue={renderFieldValue}
+                    />
+                  )),
+                )}
           </div>
 
           <div className="mt-8 pt-4">
