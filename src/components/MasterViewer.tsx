@@ -78,7 +78,9 @@ export const MasterViewer = (props: Props) => {
           } else {
             return {
               status: "outdated",
-              message: `診療開始日がアプリに組み込まれたマスターの有効期間外なので、注意してください。有効期間: ${masterChangeDate.value} ~ ${masterDeprecationDate.value} (診療開始日: ${date})`,
+              message:
+                "アプリに組み込まれたマスターは常に最新の値を示します。古いレセプトを参照している場合は注意してください。",
+              // message: `診療開始日がアプリに組み込まれたマスターの有効期間外なので、注意してください。有効期間: ${masterChangeDate.value} ~ ${masterDeprecationDate.value} (診療開始日: ${date})`,
             };
           }
         }
