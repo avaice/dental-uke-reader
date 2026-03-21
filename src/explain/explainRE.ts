@@ -8,6 +8,7 @@ import {
 } from "@misc/constants";
 import { findFromKV } from "@misc/tools";
 import type { RecordType } from "@misc/types";
+import { toDate } from "src/utils/date";
 
 const descriptions: (((record: RecordType) => string) | string)[] = [
   "この行がレセプト共通レコードであることを示します",
@@ -45,9 +46,9 @@ const descriptions: (((record: RecordType) => string) | string)[] = [
   (record) => {
     let description =
       "一部負担金・食事療養費・生活療養費標準負担額区分を示します。";
-    const birth = new Date(record.row[6]);
+    const birth = toDate(record.row[6]);
     const isHospitalized = record.row[8] !== "";
-    const date = new Date(isHospitalized ? record.row[8] : record.row[9]);
+    const date = toDate(isHospitalized ? record.row[8] : record.row[9]);
     const diff = date.getTime() - birth.getTime();
     const age = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
 
