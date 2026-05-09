@@ -3,7 +3,7 @@ import { iyakuhinMasterHeaders } from "./header";
 import { iyakuhinMasterStore } from "./instance";
 import master from "./master_data_utf8.txt";
 
-const VERSION = "20250729";
+const VERSION = "20260414";
 
 export const loadIyakuhinMaster = async (
   callback: (message: string) => void,

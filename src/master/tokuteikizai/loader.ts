@@ -3,7 +3,7 @@ import { tokuteikizaiMasterHeaders } from "./header";
 import { tokuteikizaiMasterStore } from "./instance";
 import master from "./master_data_utf8.txt";
 
-const VERSION = "20250729";
+const VERSION = "20260501";
 
 export const loadTokuteikizaiMaster = async (
   callback: (message: string) => void,

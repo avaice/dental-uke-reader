@@ -3,7 +3,7 @@ import { shikaKihonChuMasterHeaders } from "./header";
 import { shikaKihonChuMasterStore } from "./instance";
 import master from "./master_data_utf8.txt";
 
-const VERSION = "20250729";
+const VERSION = "20260331";
 
 export const loadShikaKihonChuMaster = async (
   callback: (message: string) => void,
