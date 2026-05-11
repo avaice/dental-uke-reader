@@ -16,7 +16,7 @@ export const loadShobyomeiMaster2026 = async (
   }
 
   console.time("傷病名マスターの読み込み");
-  callback("Downloading 傷病名マスター...");
+  callback("Downloading 傷病名マスター (2026)...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");
@@ -58,7 +58,7 @@ export const loadShobyomeiMaster2026 = async (
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      callback(`Loading 傷病名マスター ${i} / ${lines.length}`);
+      callback(`Loading 傷病名マスター (2026) ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("shobyomeiMasterVersion", VERSION);

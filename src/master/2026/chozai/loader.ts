@@ -16,7 +16,7 @@ export const loadChozaiMaster2026 = async (
   }
 
   console.time("調剤マスターの読み込み");
-  callback("Downloading 調剤マスター...");
+  callback("Downloading 調剤マスター (2026)...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");
@@ -58,7 +58,7 @@ export const loadChozaiMaster2026 = async (
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      callback(`Loading 調剤マスター ${i} / ${lines.length}`);
+      callback(`Loading 調剤マスター (2026) ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("chozaiMasterVersion", VERSION);

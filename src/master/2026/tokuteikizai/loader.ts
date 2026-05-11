@@ -16,7 +16,7 @@ export const loadTokuteikizaiMaster2026 = async (
   }
 
   console.time("特定器材マスターの読み込み");
-  callback("Downloading 特定機材マスター...");
+  callback("Downloading 特定機材マスター (2026)...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");
@@ -60,7 +60,7 @@ export const loadTokuteikizaiMaster2026 = async (
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      callback(`Loading 特定器材マスター ${i} / ${lines.length}`);
+      callback(`Loading 特定器材マスター (2026) ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("tokuteikizaiMasterVersion", VERSION);

@@ -16,7 +16,7 @@ export const loadIyakuhinMaster2026 = async (
   }
 
   console.time("医薬品マスターの読み込み");
-  callback("Downloading 医薬品マスター...");
+  callback("Downloading 医薬品マスター (2026)...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");
@@ -58,7 +58,7 @@ export const loadIyakuhinMaster2026 = async (
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      callback(`Loading 医薬品マスター ${i} / ${lines.length}`);
+      callback(`Loading 医薬品マスター (2026) ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("iyakuhinMasterVersion", VERSION);

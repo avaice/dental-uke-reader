@@ -14,7 +14,7 @@ export const loadShikaMaster2026 = async (callback: (message: string) => void) =
   }
 
   console.time("歯科診療行為マスターの読み込み");
-  callback("Downloading 歯科診療行為マスター...");
+  callback("Downloading 歯科診療行為マスター (2026)...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");
@@ -56,7 +56,7 @@ export const loadShikaMaster2026 = async (callback: (message: string) => void) =
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      callback(`Loading 歯科診療行為マスター ${i} / ${lines.length}`);
+      callback(`Loading 歯科診療行為マスター (2026) ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("shikaMasterVersion", VERSION);

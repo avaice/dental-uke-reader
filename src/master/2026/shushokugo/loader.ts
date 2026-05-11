@@ -16,7 +16,7 @@ export const loadShushokugoMaster2026 = async (
   }
 
   console.time("修飾語マスターの読み込み");
-  callback("Downloading 修飾語マスター...");
+  callback("Downloading 修飾語マスター (2026)...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");
@@ -58,7 +58,7 @@ export const loadShushokugoMaster2026 = async (
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      callback(`Loading 修飾語マスター ${i} / ${lines.length}`);
+      callback(`Loading 修飾語マスター (2026) ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("shushokugoMasterVersion", VERSION);

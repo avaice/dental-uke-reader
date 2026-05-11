@@ -16,7 +16,7 @@ export const loadCommentMaster2026 = async (
   }
 
   console.time("コメントマスターの読み込み");
-  callback("Downloading コメントマスター...");
+  callback("Downloading コメントマスター (2026)...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");
@@ -58,7 +58,7 @@ export const loadCommentMaster2026 = async (
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      callback(`Loading コメントマスター ${i} / ${lines.length}`);
+      callback(`Loading コメントマスター (2026) ${i} / ${lines.length}`);
     }
   }
   await masterManageStore.setItem("commentMasterVersion", VERSION);

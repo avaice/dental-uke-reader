@@ -18,7 +18,7 @@ export const loadShikaKihonChuMaster2026 = async (
   }
 
   console.time("歯科診療行為（基本・注加算）マスターの読み込み");
-  callback("Downloading 歯科診療行為（基本・注加算）マスター...");
+  callback("Downloading 歯科診療行為（基本・注加算）マスター (2026)...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");
@@ -61,7 +61,7 @@ export const loadShikaKihonChuMaster2026 = async (
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
       callback(
-        `Loading 歯科診療行為（基本・注加算）マスター ${i} / ${lines.length}`,
+        `Loading 歯科診療行為（基本・注加算）マスター (2026) ${i} / ${lines.length}`,
       );
     }
   }
