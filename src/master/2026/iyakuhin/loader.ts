@@ -1,22 +1,22 @@
 import { masterManageStore } from "@master/masterManageInstance";
-import { MASTER_VERSIONS } from "../masterVersions";
-import { shobyomeiMasterHeaders } from "./header";
-import { shobyomeiMasterStore } from "./instance";
+import { MASTER_VERSIONS } from "../../masterVersions";
+import { iyakuhinMasterHeaders } from "./header";
+import { iyakuhinMasterStore } from "./instance";
 import master from "./master_data_utf8.txt";
 
-const VERSION = MASTER_VERSIONS.shobyomeiMasterVersion;
+const VERSION = MASTER_VERSIONS.iyakuhinMasterVersion;
 
-export const loadShobyomeiMaster = async (
+export const loadIyakuhinMaster2026 = async (
   callback: (message: string) => void,
 ) => {
-  const version = await masterManageStore.getItem("shobyomeiMasterVersion");
+  const version = await masterManageStore.getItem("iyakuhinMasterVersion");
   if (version === VERSION) {
-    console.log("傷病名マスターはすでに読み込まれています");
+    console.log("医薬品マスターはすでに読み込まれています");
     return;
   }
 
-  console.time("傷病名マスターの読み込み");
-  callback("Downloading 傷病名マスター...");
+  console.time("医薬品マスターの読み込み");
+  callback("Downloading 医薬品マスター...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");
@@ -37,7 +37,7 @@ export const loadShobyomeiMaster = async (
         if (isInBracket) {
           p++;
         } else {
-          record[shobyomeiMasterHeaders[columnIndex].name] = buffer;
+          record[iyakuhinMasterHeaders[columnIndex].name] = buffer;
           columnIndex++;
           buffer = "";
         }
@@ -46,21 +46,21 @@ export const loadShobyomeiMaster = async (
       }
       p++;
     }
-    if (record.傷病名コード) {
-      const exists = await shobyomeiMasterStore.getItem(record.傷病名コード);
+    if (record.医薬品コード) {
+      const exists = await iyakuhinMasterStore.getItem(record.医薬品コード);
       if (exists) {
-        await shobyomeiMasterStore.setItem(record.傷病名コード, [
+        await iyakuhinMasterStore.setItem(record.医薬品コード, [
           ...(exists as Record<string, string>[]),
           record,
         ]);
       } else {
-        await shobyomeiMasterStore.setItem(record.傷病名コード, [record]);
+        await iyakuhinMasterStore.setItem(record.医薬品コード, [record]);
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      callback(`Loading 傷病名マスター ${i} / ${lines.length}`);
+      callback(`Loading 医薬品マスター ${i} / ${lines.length}`);
     }
   }
-  await masterManageStore.setItem("shobyomeiMasterVersion", VERSION);
-  console.timeEnd("傷病名マスターの読み込み");
+  await masterManageStore.setItem("iyakuhinMasterVersion", VERSION);
+  console.timeEnd("医薬品マスターの読み込み");
 };

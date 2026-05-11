@@ -1,12 +1,12 @@
 import { masterManageStore } from "@master/masterManageInstance";
-import { MASTER_VERSIONS } from "../masterVersions";
+import { MASTER_VERSIONS } from "../../masterVersions";
 import { shushokugoMasterHeaders } from "./header";
 import { shushokugoMasterStore } from "./instance";
 import master from "./master_data_utf8.txt";
 
 const VERSION = MASTER_VERSIONS.shushokugoMasterVersion;
 
-export const loadShushokugoMaster = async (
+export const loadShushokugoMaster2026 = async (
   callback: (message: string) => void,
 ) => {
   const version = await masterManageStore.getItem("shushokugoMasterVersion");

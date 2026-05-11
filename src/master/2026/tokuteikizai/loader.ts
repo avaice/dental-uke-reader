@@ -1,12 +1,12 @@
 import { masterManageStore } from "@master/masterManageInstance";
-import { MASTER_VERSIONS } from "../masterVersions";
+import { MASTER_VERSIONS } from "../../masterVersions";
 import { tokuteikizaiMasterHeaders } from "./header";
 import { tokuteikizaiMasterStore } from "./instance";
 import master from "./master_data_utf8.txt";
 
 const VERSION = MASTER_VERSIONS.tokuteikizaiMasterVersion;
 
-export const loadTokuteikizaiMaster = async (
+export const loadTokuteikizaiMaster2026 = async (
   callback: (message: string) => void,
 ) => {
   const version = await masterManageStore.getItem("tokuteikizaiMasterVersion");

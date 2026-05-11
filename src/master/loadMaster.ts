@@ -1,17 +1,17 @@
-import { loadChozaiMaster } from "./chozai/loader";
-import { loadCommentMaster } from "./comment/loader";
-import { loadIkaMaster } from "./ika/loader";
-import { loadIyakuhinMaster } from "./iyakuhin/loader";
+import { loadChozaiMaster2026 } from "./2026/chozai/loader";
+import { loadCommentMaster2026 } from "./2026/comment/loader";
+import { loadIkaMaster2026 } from "./2026/ika/loader";
+import { loadIyakuhinMaster2026 } from "./2026/iyakuhin/loader";
 import { masterManageStore } from "./masterManageInstance";
 import { MASTER_VERSIONS } from "./masterVersions";
-import { loadShikaMaster } from "./shika/loader";
-import { loadShikaKihonChuMaster } from "./shikaKihonChu/loader";
-import { loadShikaKihonKihonMaster } from "./shikaKihonKihon/loader";
-import { loadShikaKihonTsureiMaster } from "./shikaKihonTsurei/loader";
-import { loadShikaKihonZairyoMaster } from "./shikaKihonZairyo/loader";
-import { loadShobyomeiMaster } from "./shobyomei/loader";
-import { loadShushokugoMaster } from "./shushokugo/loader";
-import { loadTokuteikizaiMaster } from "./tokuteikizai/loader";
+import { loadShikaMaster2026 } from "./2026/shika/loader";
+import { loadShikaKihonChuMaster2026 } from "./2026/shikaKihonChu/loader";
+import { loadShikaKihonKihonMaster2026 } from "./2026/shikaKihonKihon/loader";
+import { loadShikaKihonTsureiMaster2026 } from "./2026/shikaKihonTsurei/loader";
+import { loadShikaKihonZairyoMaster2026 } from "./2026/shikaKihonZairyo/loader";
+import { loadShobyomeiMaster2026 } from "./2026/shobyomei/loader";
+import { loadShushokugoMaster2026 } from "./2026/shushokugo/loader";
+import { loadTokuteikizaiMaster2026 } from "./2026/tokuteikizai/loader";
 
 export const checkMasterVersionUpToDate = async () => {
   const checks = await Promise.all(
@@ -51,16 +51,16 @@ export const reloadMaster = async (callback: (message: string) => void) => {
 };
 
 export const loadMaster = async (callback: (message: string) => void) => {
-  await loadShobyomeiMaster(callback);
-  await loadIyakuhinMaster(callback);
-  await loadShikaMaster(callback);
-  await loadTokuteikizaiMaster(callback);
-  await loadCommentMaster(callback);
-  await loadIkaMaster(callback);
-  await loadShushokugoMaster(callback);
-  await loadChozaiMaster(callback);
-  await loadShikaKihonKihonMaster(callback);
-  await loadShikaKihonChuMaster(callback);
-  await loadShikaKihonTsureiMaster(callback);
-  await loadShikaKihonZairyoMaster(callback);
+  await loadShobyomeiMaster2026(callback);
+  await loadIyakuhinMaster2026(callback);
+  await loadShikaMaster2026(callback);
+  await loadTokuteikizaiMaster2026(callback);
+  await loadCommentMaster2026(callback);
+  await loadIkaMaster2026(callback);
+  await loadShushokugoMaster2026(callback);
+  await loadChozaiMaster2026(callback);
+  await loadShikaKihonKihonMaster2026(callback);
+  await loadShikaKihonChuMaster2026(callback);
+  await loadShikaKihonTsureiMaster2026(callback);
+  await loadShikaKihonZairyoMaster2026(callback);
 };

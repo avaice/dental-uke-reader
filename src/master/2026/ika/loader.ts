@@ -1,12 +1,12 @@
 import { masterManageStore } from "@master/masterManageInstance";
-import { MASTER_VERSIONS } from "../masterVersions";
+import { MASTER_VERSIONS } from "../../masterVersions";
 import { ikaMasterHeaders } from "./header";
 import { ikaMasterStore } from "./instance";
 import master from "./master_data_utf8.txt";
 
 const VERSION = MASTER_VERSIONS.ikaMasterVersion;
 
-export const loadIkaMaster = async (callback: (message: string) => void) => {
+export const loadIkaMaster2026 = async (callback: (message: string) => void) => {
   const version = await masterManageStore.getItem("ikaMasterVersion");
   if (version === VERSION) {
     console.log("医科診療行為マスターはすでに読み込まれています");

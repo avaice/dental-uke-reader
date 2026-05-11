@@ -1,15 +1,15 @@
-import { chozaiMasterStore } from "./chozai/instance";
-import { commentMasterStore } from "./comment/instance";
-import { ikaMasterStore } from "./ika/instance";
-import { iyakuhinMasterStore } from "./iyakuhin/instance";
-import { shikaMasterStore } from "./shika/instance";
-import { shikaKihonChuMasterStore } from "./shikaKihonChu/instance";
-import { shikaKihonKihonMasterStore } from "./shikaKihonKihon/instance";
-import { shikaKihonTsureiMasterStore } from "./shikaKihonTsurei/instance";
-import { shikaKihonZairyoMasterStore } from "./shikaKihonZairyo/instance";
-import { shobyomeiMasterStore } from "./shobyomei/instance";
-import { shushokugoMasterStore } from "./shushokugo/instance";
-import { tokuteikizaiMasterStore } from "./tokuteikizai/instance";
+import { chozaiMasterStore } from "./2026/chozai/instance";
+import { commentMasterStore } from "./2026/comment/instance";
+import { ikaMasterStore } from "./2026/ika/instance";
+import { iyakuhinMasterStore } from "./2026/iyakuhin/instance";
+import { shikaMasterStore } from "./2026/shika/instance";
+import { shikaKihonChuMasterStore } from "./2026/shikaKihonChu/instance";
+import { shikaKihonKihonMasterStore } from "./2026/shikaKihonKihon/instance";
+import { shikaKihonTsureiMasterStore } from "./2026/shikaKihonTsurei/instance";
+import { shikaKihonZairyoMasterStore } from "./2026/shikaKihonZairyo/instance";
+import { shobyomeiMasterStore } from "./2026/shobyomei/instance";
+import { shushokugoMasterStore } from "./2026/shushokugo/instance";
+import { tokuteikizaiMasterStore } from "./2026/tokuteikizai/instance";
 
 type MasterData = Record<string, string>[];
 

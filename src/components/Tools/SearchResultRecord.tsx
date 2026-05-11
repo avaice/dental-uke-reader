@@ -1,15 +1,15 @@
-import { chozaiMasterHeaders } from "@master/chozai";
-import { commentMasterHeaders } from "@master/comment";
-import { ikaMasterHeaders } from "@master/ika";
-import { iyakuhinMasterHeaders } from "@master/iyakuhin";
-import { shikaMasterHeaders } from "@master/shika";
-import { shikaKihonChuMasterHeaders } from "@master/shikaKihonChu";
-import { shikaKihonKihonMasterHeaders } from "@master/shikaKihonKihon";
-import { shikaKihonTsureiMasterHeaders } from "@master/shikaKihonTsurei";
-import { shikaKihonZairyoMasterHeaders } from "@master/shikaKihonZairyo";
-import { shobyomeiMasterHeaders } from "@master/shobyomei";
-import { shushokugoMasterHeaders } from "@master/shushokugo";
-import { tokuteikizaiMasterHeaders } from "@master/tokuteikizai";
+import { chozaiMasterHeaders } from "@master/2026/chozai";
+import { commentMasterHeaders } from "@master/2026/comment";
+import { ikaMasterHeaders } from "@master/2026/ika";
+import { iyakuhinMasterHeaders } from "@master/2026/iyakuhin";
+import { shikaMasterHeaders } from "@master/2026/shika";
+import { shikaKihonChuMasterHeaders } from "@master/2026/shikaKihonChu";
+import { shikaKihonKihonMasterHeaders } from "@master/2026/shikaKihonKihon";
+import { shikaKihonTsureiMasterHeaders } from "@master/2026/shikaKihonTsurei";
+import { shikaKihonZairyoMasterHeaders } from "@master/2026/shikaKihonZairyo";
+import { shobyomeiMasterHeaders } from "@master/2026/shobyomei";
+import { shushokugoMasterHeaders } from "@master/2026/shushokugo";
+import { tokuteikizaiMasterHeaders } from "@master/2026/tokuteikizai";
 import type React from "react";
 
 interface SearchResultRecordProps {

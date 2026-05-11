@@ -1,22 +1,22 @@
 import { masterManageStore } from "@master/masterManageInstance";
-import { MASTER_VERSIONS } from "../masterVersions";
-import { commentMasterHeaders } from "./header";
-import { commentMasterStore } from "./instance";
+import { MASTER_VERSIONS } from "../../masterVersions";
+import { shobyomeiMasterHeaders } from "./header";
+import { shobyomeiMasterStore } from "./instance";
 import master from "./master_data_utf8.txt";
 
-const VERSION = MASTER_VERSIONS.commentMasterVersion;
+const VERSION = MASTER_VERSIONS.shobyomeiMasterVersion;
 
-export const loadCommentMaster = async (
+export const loadShobyomeiMaster2026 = async (
   callback: (message: string) => void,
 ) => {
-  const version = await masterManageStore.getItem("commentMasterVersion");
+  const version = await masterManageStore.getItem("shobyomeiMasterVersion");
   if (version === VERSION) {
-    console.log("コメントマスターはすでに読み込まれています");
+    console.log("傷病名マスターはすでに読み込まれています");
     return;
   }
 
-  console.time("コメントマスターの読み込み");
-  callback("Downloading コメントマスター...");
+  console.time("傷病名マスターの読み込み");
+  callback("Downloading 傷病名マスター...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");
@@ -37,7 +37,7 @@ export const loadCommentMaster = async (
         if (isInBracket) {
           p++;
         } else {
-          record[commentMasterHeaders[columnIndex].name] = buffer;
+          record[shobyomeiMasterHeaders[columnIndex].name] = buffer;
           columnIndex++;
           buffer = "";
         }
@@ -46,21 +46,21 @@ export const loadCommentMaster = async (
       }
       p++;
     }
-    if (record.コメントコード) {
-      const exists = await commentMasterStore.getItem(record.コメントコード);
+    if (record.傷病名コード) {
+      const exists = await shobyomeiMasterStore.getItem(record.傷病名コード);
       if (exists) {
-        await commentMasterStore.setItem(record.コメントコード, [
+        await shobyomeiMasterStore.setItem(record.傷病名コード, [
           ...(exists as Record<string, string>[]),
           record,
         ]);
       } else {
-        await commentMasterStore.setItem(record.コメントコード, [record]);
+        await shobyomeiMasterStore.setItem(record.傷病名コード, [record]);
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
-      callback(`Loading コメントマスター ${i} / ${lines.length}`);
+      callback(`Loading 傷病名マスター ${i} / ${lines.length}`);
     }
   }
-  await masterManageStore.setItem("commentMasterVersion", VERSION);
-  console.timeEnd("コメントマスターの読み込み");
+  await masterManageStore.setItem("shobyomeiMasterVersion", VERSION);
+  console.timeEnd("傷病名マスターの読み込み");
 };

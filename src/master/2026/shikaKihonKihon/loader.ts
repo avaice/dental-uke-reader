@@ -1,12 +1,12 @@
 import { masterManageStore } from "@master/masterManageInstance";
-import { MASTER_VERSIONS } from "../masterVersions";
+import { MASTER_VERSIONS } from "../../masterVersions";
 import { shikaKihonKihonMasterHeaders } from "./header";
 import { shikaKihonKihonMasterStore } from "./instance";
 import master from "./master_data_utf8.txt";
 
 const VERSION = MASTER_VERSIONS.shikaKihonKihonMasterVersion;
 
-export const loadShikaKihonKihonMaster = async (
+export const loadShikaKihonKihonMaster2026 = async (
   callback: (message: string) => void,
 ) => {
   const version = await masterManageStore.getItem(

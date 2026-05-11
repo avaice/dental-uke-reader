@@ -1,12 +1,12 @@
 import { masterManageStore } from "@master/masterManageInstance";
-import { MASTER_VERSIONS } from "../masterVersions";
+import { MASTER_VERSIONS } from "../../masterVersions";
 import { shikaMasterHeaders } from "./header";
 import { shikaMasterStore } from "./instance";
 import master from "./master_data_utf8.txt";
 
 const VERSION = MASTER_VERSIONS.shikaMasterVersion;
 
-export const loadShikaMaster = async (callback: (message: string) => void) => {
+export const loadShikaMaster2026 = async (callback: (message: string) => void) => {
   const version = await masterManageStore.getItem("shikaMasterVersion");
   if (version === VERSION) {
     console.log("歯科診療行為マスターはすでに読み込まれています");

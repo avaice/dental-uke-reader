@@ -1,12 +1,14 @@
 import { masterManageStore } from "@master/masterManageInstance";
-import { MASTER_VERSIONS } from "../masterVersions";
+import { MASTER_VERSIONS } from "../../masterVersions";
 import { chozaiMasterHeaders } from "./header";
 import { chozaiMasterStore } from "./instance";
 import master from "./master_data_utf8.txt";
 
 const VERSION = MASTER_VERSIONS.chozaiMasterVersion;
 
-export const loadChozaiMaster = async (callback: (message: string) => void) => {
+export const loadChozaiMaster2026 = async (
+  callback: (message: string) => void,
+) => {
   const version = await masterManageStore.getItem("chozaiMasterVersion");
   if (version === VERSION) {
     console.log("調剤マスターはすでに読み込まれています");

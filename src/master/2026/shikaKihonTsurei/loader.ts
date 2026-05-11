@@ -1,26 +1,26 @@
 import { masterManageStore } from "@master/masterManageInstance";
-import { MASTER_VERSIONS } from "../masterVersions";
-import { shikaKihonZairyoMasterHeaders } from "./header";
-import { shikaKihonZairyoMasterStore } from "./instance";
+import { MASTER_VERSIONS } from "../../masterVersions";
+import { shikaKihonTsureiMasterHeaders } from "./header";
+import { shikaKihonTsureiMasterStore } from "./instance";
 import master from "./master_data_utf8.txt";
 
-const VERSION = MASTER_VERSIONS.shikaKihonZairyoMasterVersion;
+const VERSION = MASTER_VERSIONS.shikaKihonTsureiMasterVersion;
 
-export const loadShikaKihonZairyoMaster = async (
+export const loadShikaKihonTsureiMaster2026 = async (
   callback: (message: string) => void,
 ) => {
   const version = await masterManageStore.getItem(
-    "shikaKihonZairyoMasterVersion",
+    "shikaKihonTsureiMasterVersion",
   );
   if (version === VERSION) {
     console.log(
-      "歯科診療行為（基本・材料加算）マスターはすでに読み込まれています",
+      "歯科診療行為（基本・通則加算）マスターはすでに読み込まれています",
     );
     return;
   }
 
-  console.time("歯科診療行為（基本・材料加算）マスターの読み込み");
-  callback("Downloading 歯科診療行為（基本・材料加算）マスター...");
+  console.time("歯科診療行為（基本・通則加算）マスターの読み込み");
+  callback("Downloading 歯科診療行為（基本・通則加算）マスター...");
   const response = await fetch(master);
   const text = await response.text();
   const lines = text.split("\n");
@@ -41,7 +41,7 @@ export const loadShikaKihonZairyoMaster = async (
         if (isInBracket) {
           p++;
         } else {
-          record[shikaKihonZairyoMasterHeaders[columnIndex].name] = buffer;
+          record[shikaKihonTsureiMasterHeaders[columnIndex].name] = buffer;
           columnIndex++;
           buffer = "";
         }
@@ -51,24 +51,24 @@ export const loadShikaKihonZairyoMaster = async (
       p++;
     }
     if (record.加算コード) {
-      const exists = await shikaKihonZairyoMasterStore.getItem(
+      const exists = await shikaKihonTsureiMasterStore.getItem(
         record.加算コード,
       );
       if (exists) {
-        await shikaKihonZairyoMasterStore.setItem(record.加算コード, [
+        await shikaKihonTsureiMasterStore.setItem(record.加算コード, [
           ...(exists as Record<string, string>[]),
           record,
         ]);
       } else {
-        await shikaKihonZairyoMasterStore.setItem(record.加算コード, [record]);
+        await shikaKihonTsureiMasterStore.setItem(record.加算コード, [record]);
       }
     }
     if (i % 1000 === 0 || i === lines.length - 1) {
       callback(
-        `Loading 歯科診療行為（基本・材料加算）マスター ${i} / ${lines.length}`,
+        `Loading 歯科診療行為（基本・通則加算）マスター ${i} / ${lines.length}`,
       );
     }
   }
-  await masterManageStore.setItem("shikaKihonZairyoMasterVersion", VERSION);
-  console.timeEnd("歯科診療行為（基本・材料加算）マスターの読み込み");
+  await masterManageStore.setItem("shikaKihonTsureiMasterVersion", VERSION);
+  console.timeEnd("歯科診療行為（基本・通則加算）マスターの読み込み");
 };
