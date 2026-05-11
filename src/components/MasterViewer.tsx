@@ -18,6 +18,13 @@ type Props = {
   record: RecordType;
 };
 
+type MasterRecord = Record<string, string>;
+type DisplayItem = { key: string; value: string };
+type MasterValidation = {
+  status: "valid" | "outdated" | "error";
+  message: string;
+};
+
 const getDate = (UKE: string[][], record: RecordType) => {
   // 入院レセプト
   if (record.identification === "HS" && record.row[1] !== "") {
@@ -36,11 +43,56 @@ const getDate = (UKE: string[][], record: RecordType) => {
   return null;
 };
 
+const isMasterRecords = (value: unknown): value is MasterRecord[] => {
+  if (!Array.isArray(value)) {
+    return false;
+  }
+  return value.every((record) => {
+    if (
+      record === null ||
+      typeof record !== "object" ||
+      Array.isArray(record)
+    ) {
+      return false;
+    }
+    return Object.values(record).every((field) => typeof field === "string");
+  });
+};
+
+const parseDateValue = (date: string | undefined) => {
+  if (!date) {
+    return null;
+  }
+  const parsed = Number(date);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return null;
+  }
+  return parsed;
+};
+
+const getLatestMasterRecord = (records: MasterRecord[]) => {
+  if (records.length === 0) {
+    return null;
+  }
+  return [...records].sort((a, b) => {
+    const aDate = parseDateValue(a["変更年月日"]) ?? Number.NEGATIVE_INFINITY;
+    const bDate = parseDateValue(b["変更年月日"]) ?? Number.NEGATIVE_INFINITY;
+    return bDate - aDate;
+  })[0];
+};
+
+const toDisplayItems = (record: MasterRecord | null): DisplayItem[] => {
+  if (!record) {
+    return [];
+  }
+  return Object.entries(record).map(([key, value]) => ({ key, value }));
+};
+
 export const MasterViewer = (props: Props) => {
   const UKE = useAtomValue(UKEAtom);
   const [message, setMessage] = useState<string | null>(null);
   const { store, header } = props.master;
-  const [result, setResult] = useState<Record<string, string>[][]>([[]]);
+  const [result, setResult] = useState<MasterRecord[]>([]);
   const [status, setStatus] = useState<
     | "checkingMaster"
     | "masterFound"
@@ -52,47 +104,63 @@ export const MasterViewer = (props: Props) => {
   >("checkingMaster");
 
   // 診療日時点でマスターが有効か
-  const masterValidation = useMemo(() => {
-    if (status === "success" && UKE) {
-      const date = getDate(UKE, props.record);
-      if (date) {
-        const masterChangeDate = result[0].find(
-          (item) => item.key === "変更年月日",
-        );
-        const masterDeprecationDate = result[0].find(
-          (item) => item.key === "廃止年月日",
-        );
-        if (masterChangeDate && masterDeprecationDate) {
-          const masterChangeDateValue = Number(masterChangeDate.value);
-          const masterDeprecationDateValue = Number(
-            masterDeprecationDate.value,
-          );
-          if (
-            date >= masterChangeDateValue &&
-            date <= masterDeprecationDateValue
-          ) {
-            return {
-              status: "valid",
-              message: `診療開始日時点のマスターを表示しています`,
-            };
-          } else {
-            return {
-              status: "outdated",
-              message:
-                "アプリに組み込まれたマスターは常に最新の値を示します。古いレセプトを参照している場合は注意してください。",
-              // message: `診療開始日がアプリに組み込まれたマスターの有効期間外なので、注意してください。有効期間: ${masterChangeDate.value} ~ ${masterDeprecationDate.value} (診療開始日: ${date})`,
-            };
-          }
-        }
-      } else {
-        return {
+  const { displayItems, masterValidation } = useMemo<{
+    displayItems: DisplayItem[];
+    masterValidation: MasterValidation | null;
+  }>(() => {
+    const latestMasterRecord = getLatestMasterRecord(result);
+
+    if (status !== "success") {
+      return { displayItems: [], masterValidation: null };
+    }
+
+    if (!UKE) {
+      return {
+        displayItems: toDisplayItems(latestMasterRecord),
+        masterValidation: null,
+      };
+    }
+
+    const date = getDate(UKE, props.record);
+    if (!date) {
+      return {
+        displayItems: toDisplayItems(latestMasterRecord),
+        masterValidation: {
           status: "error",
           message:
             "診療開始日が取得できなかったため、最新のマスターデータを表示します",
-        };
-      }
+        },
+      };
     }
-    return null;
+
+    const validMasterRecords = result.filter((masterRecord) => {
+      const changeDate = parseDateValue(masterRecord["変更年月日"]);
+      const deprecationDate = parseDateValue(masterRecord["廃止年月日"]);
+      if (changeDate === null || deprecationDate === null) {
+        return false;
+      }
+      return date >= changeDate && date <= deprecationDate;
+    });
+
+    const inTermMasterRecord = getLatestMasterRecord(validMasterRecords);
+    if (inTermMasterRecord) {
+      return {
+        displayItems: toDisplayItems(inTermMasterRecord),
+        masterValidation: {
+          status: "valid",
+          message: "診療開始日時点のマスターを表示しています",
+        },
+      };
+    }
+
+    return {
+      displayItems: toDisplayItems(latestMasterRecord),
+      masterValidation: {
+        status: "outdated",
+        message:
+          "診療開始日に一致するマスターが見つからないため、最新のマスターを表示しています。",
+      },
+    };
   }, [props.record.identification, props.record, result, status, UKE]);
 
   useEffect(() => {
@@ -110,16 +178,16 @@ export const MasterViewer = (props: Props) => {
   useEffect(() => {
     if (status === "masterFound") {
       setStatus("loadingMaster");
-      store.getItem(props.record.data).then((value) => {
+      store.getItem<unknown>(props.record.data).then((value) => {
         if (value === null) {
           setStatus("noData");
           return;
         }
-        setResult(
-          (value as Record<string, string>[]).map((v) =>
-            Object.entries(v).map(([k, v]) => ({ key: k, value: v })),
-          ),
-        );
+        if (!isMasterRecords(value)) {
+          setStatus("error");
+          return;
+        }
+        setResult(value);
         setStatus("success");
       });
     }
@@ -161,6 +229,16 @@ export const MasterViewer = (props: Props) => {
     );
   }
 
+  if (status === "error") {
+    return (
+      <MessageWithEmoji
+        message="マスターデータの形式が不正なため表示できません"
+        emoji="😵"
+        className="text-center"
+      />
+    );
+  }
+
   if (status === "success") {
     return (
       <div className="flex flex-col gap-2">
@@ -178,29 +256,27 @@ export const MasterViewer = (props: Props) => {
           </div>
         )}
         <ul className="flex w-full flex-col gap-1">
-          {result.map((items, i) =>
-            items.map((item, j) => (
-              <li
-                key={`${item.key}-${i}-${j}`}
-                className="flex w-full flex-col gap-2 bg-gray-100 p-2"
-              >
-                <details className="group ml-2">
-                  <summary className="flex cursor-pointer items-center">
-                    <span className="mr-2 rotate-0 select-none group-open:rotate-90">
-                      ▶
-                    </span>
-                    <span className="w-[200px] shrink-0">{item.key}</span>
-                    <span className="w-full">{item.value}</span>
-                  </summary>
-                  <div className="mt-1.5 rounded bg-yellow-100 p-2 text-xs">
-                    <p className="whitespace-pre-wrap">
-                      {header.find((h) => h.name === item.key)?.value}
-                    </p>
-                  </div>
-                </details>
-              </li>
-            )),
-          )}
+          {displayItems.map((item, index) => (
+            <li
+              key={`${item.key}-${index}`}
+              className="flex w-full flex-col gap-2 bg-gray-100 p-2"
+            >
+              <details className="group ml-2">
+                <summary className="flex cursor-pointer items-center">
+                  <span className="mr-2 rotate-0 select-none group-open:rotate-90">
+                    ▶
+                  </span>
+                  <span className="w-[200px] shrink-0">{item.key}</span>
+                  <span className="w-full">{item.value}</span>
+                </summary>
+                <div className="mt-1.5 rounded bg-yellow-100 p-2 text-xs">
+                  <p className="whitespace-pre-wrap">
+                    {header.find((h) => h.name === item.key)?.value}
+                  </p>
+                </div>
+              </details>
+            </li>
+          ))}
         </ul>
       </div>
     );
