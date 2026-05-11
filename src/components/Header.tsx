@@ -1,12 +1,9 @@
 import { explain } from "@explain/index";
-import {
-  checkMasterLoaded,
-  checkMasterVersionUpToDate,
-} from "@master/loadMaster";
+import { masterLoadStateAtom } from "@misc/atoms";
 import { recordType } from "@misc/constants";
 import { findFromKV } from "@misc/tools";
 import type { RecordType } from "@misc/types";
-import { useEffect, useState } from "react";
+import { useAtomValue } from "jotai";
 import { Button } from "./_parts/Button";
 
 type Props = {
@@ -16,21 +13,8 @@ type Props = {
 };
 
 export const Header = (props: Props) => {
-  const [isMasterVersionUpToDate, setIsMasterVersionUpToDate] = useState<
-    boolean | undefined
-  >(undefined);
-  const [isMasterLoaded, setIsMasterLoaded] = useState<boolean | undefined>(
-    undefined,
-  );
-
-  useEffect(() => {
-    checkMasterVersionUpToDate().then((isUpToDate) => {
-      setIsMasterVersionUpToDate(isUpToDate);
-    });
-    checkMasterLoaded().then((isLoaded) => {
-      setIsMasterLoaded(isLoaded);
-    });
-  }, []);
+  const { isMasterVersionUpToDate, isMasterLoaded } =
+    useAtomValue(masterLoadStateAtom);
   return (
     <header>
       {isMasterLoaded && isMasterVersionUpToDate === false && (
