@@ -3,6 +3,7 @@ import { loadCommentMaster } from "./comment/loader";
 import { loadIkaMaster } from "./ika/loader";
 import { loadIyakuhinMaster } from "./iyakuhin/loader";
 import { masterManageStore } from "./masterManageInstance";
+import { MASTER_VERSIONS } from "./masterVersions";
 import { loadShikaMaster } from "./shika/loader";
 import { loadShikaKihonChuMaster } from "./shikaKihonChu/loader";
 import { loadShikaKihonKihonMaster } from "./shikaKihonKihon/loader";
@@ -11,6 +12,28 @@ import { loadShikaKihonZairyoMaster } from "./shikaKihonZairyo/loader";
 import { loadShobyomeiMaster } from "./shobyomei/loader";
 import { loadShushokugoMaster } from "./shushokugo/loader";
 import { loadTokuteikizaiMaster } from "./tokuteikizai/loader";
+
+export const checkMasterVersionUpToDate = async () => {
+  const checks = await Promise.all(
+    Object.entries(MASTER_VERSIONS).map(async ([key, latestVersion]) => {
+      const currentVersion = await masterManageStore.getItem(key);
+      return currentVersion === latestVersion;
+    }),
+  );
+
+  return checks.every((isLatest) => isLatest);
+};
+
+export const checkMasterLoaded = async () => {
+  const loadedStates = await Promise.all(
+    Object.keys(MASTER_VERSIONS).map(async (key) => {
+      const currentVersion = await masterManageStore.getItem(key);
+      return currentVersion !== null;
+    }),
+  );
+
+  return loadedStates.every((isLoaded) => isLoaded);
+};
 
 export const getMasterStatus = async () => {
   const keys = await masterManageStore.keys();

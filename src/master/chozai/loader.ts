@@ -1,9 +1,10 @@
 import { masterManageStore } from "@master/masterManageInstance";
+import { MASTER_VERSIONS } from "../masterVersions";
 import { chozaiMasterHeaders } from "./header";
 import { chozaiMasterStore } from "./instance";
 import master from "./master_data_utf8.txt";
 
-const VERSION = "20250729";
+const VERSION = MASTER_VERSIONS.chozaiMasterVersion;
 
 export const loadChozaiMaster = async (callback: (message: string) => void) => {
   const version = await masterManageStore.getItem("chozaiMasterVersion");

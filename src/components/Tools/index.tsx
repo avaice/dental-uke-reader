@@ -1,13 +1,16 @@
 import { Button } from "@components/_parts/Button";
 import { LoadingOverlay } from "@components/LoadingOverlay";
 import { getMasterStatus, reloadMaster } from "@master/loadMaster";
+import { refreshMasterLoadStateAtom } from "@misc/atoms";
 import type { SearchResult } from "@master/searchMaster";
 import { masterStores, searchMaster } from "@master/searchMaster";
 import { cn } from "@misc/tools";
+import { useSetAtom } from "jotai";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { SearchResultRecord } from "./SearchResultRecord";
 
 export const Tools = () => {
+  const refreshMasterLoadState = useSetAtom(refreshMasterLoadStateAtom);
   const [message, setMessage] = useState<string | null>(null);
   const [keyword, setKeyword] = useState<string>("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
@@ -216,6 +219,7 @@ export const Tools = () => {
               className="w-full"
               onClick={async () => {
                 await reloadMaster(setMessage);
+                await refreshMasterLoadState();
                 const status = await getMasterStatus();
                 setMasterStatus(status);
                 setMessage(null);
