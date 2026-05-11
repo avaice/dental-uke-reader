@@ -70,14 +70,14 @@ function App() {
       aria-label="UKE file drop zone"
     >
       {isDragOver && <DropOverlay />}
-      <div className="h-[150px]">
+      <div className="h-[180px]">
         <Header
           record={record}
           loadUKE={loadUKE}
           onOpenToolsPanel={handleOpenToolsPanel}
         />
       </div>
-      <div className="flex h-[calc(100svh_-_150px_-_32px)] w-full gap-2">
+      <div className="flex h-[calc(100svh_-_180px_-_32px)] w-full gap-2">
         <div className="h-full w-full overflow-x-scroll rounded border transition-all">
           {UKE && (
             <UKERenderer

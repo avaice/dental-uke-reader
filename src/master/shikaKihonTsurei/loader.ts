@@ -1,9 +1,10 @@
 import { masterManageStore } from "@master/masterManageInstance";
+import { MASTER_VERSIONS } from "../masterVersions";
 import { shikaKihonTsureiMasterHeaders } from "./header";
 import { shikaKihonTsureiMasterStore } from "./instance";
 import master from "./master_data_utf8.txt";
 
-const VERSION = "20260325";
+const VERSION = MASTER_VERSIONS.shikaKihonTsureiMasterVersion;
 
 export const loadShikaKihonTsureiMaster = async (
   callback: (message: string) => void,

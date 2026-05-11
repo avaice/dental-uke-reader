@@ -1,9 +1,10 @@
 import { masterManageStore } from "@master/masterManageInstance";
+import { MASTER_VERSIONS } from "../masterVersions";
 import { shobyomeiMasterHeaders } from "./header";
 import { shobyomeiMasterStore } from "./instance";
 import master from "./master_data_utf8.txt";
 
-const VERSION = "20260101";
+const VERSION = MASTER_VERSIONS.shobyomeiMasterVersion;
 
 export const loadShobyomeiMaster = async (
   callback: (message: string) => void,

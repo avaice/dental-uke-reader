@@ -1,7 +1,12 @@
 import { explain } from "@explain/index";
+import {
+  checkMasterLoaded,
+  checkMasterVersionUpToDate,
+} from "@master/loadMaster";
 import { recordType } from "@misc/constants";
 import { findFromKV } from "@misc/tools";
 import type { RecordType } from "@misc/types";
+import { useEffect, useState } from "react";
 import { Button } from "./_parts/Button";
 
 type Props = {
@@ -11,8 +16,37 @@ type Props = {
 };
 
 export const Header = (props: Props) => {
+  const [isMasterVersionUpToDate, setIsMasterVersionUpToDate] = useState<
+    boolean | undefined
+  >(undefined);
+  const [isMasterLoaded, setIsMasterLoaded] = useState<boolean | undefined>(
+    undefined,
+  );
+
+  useEffect(() => {
+    checkMasterVersionUpToDate().then((isUpToDate) => {
+      setIsMasterVersionUpToDate(isUpToDate);
+    });
+    checkMasterLoaded().then((isLoaded) => {
+      setIsMasterLoaded(isLoaded);
+    });
+  }, []);
   return (
     <header>
+      {isMasterLoaded && isMasterVersionUpToDate === false && (
+        <div className="mb-[5px] flex h-[25px] items-center rounded bg-[#617bff] px-1 text-sm text-white">
+          <span>
+            令和8年度診療報酬改定に対応したマスタ更新があります。Searchボタンからマスタを更新できます。
+          </span>
+        </div>
+      )}
+      {isMasterLoaded === false && (
+        <div className="mb-[5px] flex h-[25px] items-center rounded bg-[#617bff] px-1 text-sm text-white">
+          <span>
+            UKE Readerへようこそ。Searchボタンからマスタを読み込んでください。
+          </span>
+        </div>
+      )}
       <div className="flex justify-between gap-2">
         <h2 className="font-bold text-2xl">UKE Reader</h2>
         <div className="flex gap-2">
